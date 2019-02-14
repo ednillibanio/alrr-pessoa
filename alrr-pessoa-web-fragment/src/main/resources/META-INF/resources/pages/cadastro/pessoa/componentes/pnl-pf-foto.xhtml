@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:f="http://xmlns.jcp.org/jsf/core"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:al="http://xmlns.jcp.org/jsf/composite/components/commons"
+	xmlns:o="http://omnifaces.org/ui"
+	xmlns:c="http://xmlns.jcp.org/jsp/jstl/core"
+	xmlns:ph="http://xmlns.jcp.org/jsf/passthrough">
+
+
+	<!-- PAINEL DE FOTO -->
+	<p:panelGrid columns="1" styleClass="ui-panelgrid-blank" layout="grid">
+
+
+		<!--  I M A G E M  (F O T O)  -->
+		<p:outputPanel id="pnl-foto" styleClass="imagem-capturada">
+
+			<p:graphicImage id="foto-vazia"
+				rendered="#{pessoaFisicaController.imagemHelper.imagem== null}"
+				stream="false" styleClass="foto-selecionada"
+				url="http://placehold.it/320x240">
+			</p:graphicImage>
+			<p:graphicImage id="foto"
+				value="#{pessoaFisicaController.imagemHelper.imagemStreamed}"
+				stream="false" styleClass="foto-selecionada"
+				rendered="#{pessoaFisicaController.imagemHelper.imagem != null}">
+			</p:graphicImage>
+		</p:outputPanel>
+
+
+		<!-- GRUPO DE BOTOES -->
+		<p:panelGrid columns="1" columnClasses="column"
+			styleClass="ui-panelgrid-blank nopad" layout="grid">
+
+
+			<!-- ESCOLHER IMAGEM -->
+			<p:commandButton value="Escolher..." id="btn-escolher-imagem"
+				title="Escolher..." icon="fa fa-fw fa-upload" process="@this"
+				update="dlg-escolher-imagem"
+				oncomplete="PF('dlg-escolher-imagem').show();" styleClass="btn-lg" />
+
+
+			<!-- CAPTURAR IMAGEM -->
+			<p:commandButton value="Capturar" id="btn-capturar-imagem"
+				title="Capturar" icon="fa fa-fw fa-camera" process="@this"
+				update="dlg-capturar-imagem frm-imagem:pnl-imagem"
+				actionListener="#{pessoaFisicaController.ativarWebCam}"
+				oncomplete="PF('dlg-capturar-imagem').show();" styleClass="btn-lg"
+				onsuccess="PF('dlg-capturar-imagem').initPosition();" />
+
+		</p:panelGrid>
+
+	</p:panelGrid>
+
+
+</ui:composition>

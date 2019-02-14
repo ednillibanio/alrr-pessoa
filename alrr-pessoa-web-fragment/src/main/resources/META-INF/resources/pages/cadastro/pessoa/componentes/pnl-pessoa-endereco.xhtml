@@ -1,0 +1,173 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:f="http://xmlns.jcp.org/jsf/core"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:al="http://xmlns.jcp.org/jsf/composite/components/commons"
+	xmlns:o="http://omnifaces.org/ui"
+	xmlns:c="http://xmlns.jcp.org/jsp/jstl/core"
+	xmlns:ph="http://xmlns.jcp.org/jsf/passthrough">
+
+
+	<!-- ENDEREÇO -->
+	<!-- <p:panel header="Endereço" id="pnl-endereco" styleClass="nopad"> -->
+	<p:outputPanel id="pnl-endereco">
+		<div class="ui-g ui-responsive">
+			<div class="ui-lg-12 nopad-bottom">
+				<h3 class="pnl-titulo">
+					<strong>Endereço</strong>
+				</h3>
+			</div>
+		</div>
+		<div class="ui-g ui-responsive ui-fluid">
+			<div class="ui-lg-12 nopad-top">
+				<p:separator styleClass="pnl-titulo-sep" />
+			</div>
+		</div>
+		<div class="ui-g ui-responsive" style="margin-top: 15px;">
+			<div class="ui-md-4 ui-lg-3">
+				<p:selectBooleanCheckbox id="sem-cep" itemLabel="Não tem Cep"
+					value="#{pessoaController.semCep}"
+					title="Marque essa opção caso o endereço não tenha cep.">
+					<p:ajax update="pnl-endereco"
+						listener="#{pessoaController.limparCep}" process="pnl-endereco" />
+				</p:selectBooleanCheckbox>
+			</div>
+		</div>
+		<div class="ui-g ui-responsive">
+
+			<!-- CEP -->
+			<div class="ui-md-4 ui-lg-3">
+
+				<h:panelGroup>
+					<p:outputLabel value="Cep" for="cep" title="Cep" />
+					<div class="ui-g">
+						<div class="ui-g-10 ui-md-10 ui-lg-10 ui-g-nopad">
+							<p:inputMask id="cep" value="#{pessoaController.endereco.cep}"
+								mask="99999-999" converter="#{cepConverter}"
+								disabled="#{pessoaController.semCep == true}"
+								title="Informe o cep do endereço e o sistema irá buscá-lo automaticamente.">
+								<p:ajax process="@this"
+									listener="#{pessoaController.buscarEnderecoPorCep}"
+									update="pnl-endereco cep-msg" />
+							</p:inputMask>
+						</div>
+						<div class="ui-g-2 ui-md-2 ui-lg-2 ui-g-nopad">
+							<p:button id="btn-busca-cep" icon="fa fa-fw fa-map-marker"
+								styleClass="btn-g"
+								title="Abre a tela de consultar cep dos Correios."
+								update="dlg-bairro" process="@this"
+								href="http://www.buscacep.correios.com.br/sistemas/buscacep/buscaCep.cfm"
+								target="_blank" />
+						</div>
+
+					</div>
+				</h:panelGroup>
+			</div>
+		</div>
+		<div class="ui-g ui-responsive">
+			<div class="ui-md-12 ui-lg-12 nopad-top">
+				<p:message id="cep-msg" for="cep" display="text" />
+			</div>
+		</div>
+		<p:panelGrid columns="1" columnClasses="column" cellpadding="10"
+			styleClass="ui-panelgrid-blank" layout="grid">
+
+			<!-- LOGRADOURO -->
+			<h:panelGroup id="pnl-logradouro">
+				<p:outputLabel value="Logradouro" for="logradouro" />
+				<p:inputText id="logradouro"
+					value="#{pessoaController.endereco.logradouro}" maxlength="250"
+					required="#{not empty cep}"
+					disabled="#{pessoaController.semCep != true}"
+					converter="#{capitalizeFullyConverter}" />
+			</h:panelGroup>
+		</p:panelGrid>
+
+
+		<!-- NUMERO E COMPLEMENTO -->
+		<p:panelGrid columns="2" id="pnl-complemento"
+			columnClasses="ui-grid-col-2,  ui-grid-col-10"
+			styleClass="ui-panelgrid-blank" layout="grid">
+
+
+			<!-- NUMERO -->
+			<h:panelGroup>
+				<p:outputLabel value="Número" for="numero" />
+				<p:inputText id="numero" value="#{pessoaController.endereco.numero}"
+					maxlength="6" />
+			</h:panelGroup>
+
+
+			<!-- COMPLEMENTO -->
+			<h:panelGroup>
+				<p:outputLabel value="Complemento" for="complemento" />
+				<p:inputText id="complemento"
+					value="#{pessoaController.endereco.complemento}" maxlength="100" />
+			</h:panelGroup>
+		</p:panelGrid>
+
+		<!-- BAIRRO E LOCALIDADE -->
+		<p:panelGrid columns="1" columnClasses="column" cellpadding="10"
+			styleClass="ui-panelgrid-blank" layout="grid">
+
+			<!-- BAIRRO -->
+			<h:panelGroup id="pnl-bairro">
+				<p:outputLabel value="Bairro" for="bairro" />
+				<div class="ui-g">
+					<div class="ui-g-10 ui-md-10 ui-lg-10 ui-g-nopad">
+						<p:autoComplete value="#{pessoaController.endereco.bairro}"
+							id="bairro"
+							completeMethod="#{pessoaController.completeBairroPorNome}"
+							var="bairro" itemLabel="#{bairro.nome}" itemValue="#{bairro}"
+							forceSelection="true" minQueryLength="3" maxResults="8"
+							label="Bairro" converter="#{entityConverter}"
+							disabled="#{pessoaController.semCep != true}">
+							<p:column>#{bairro.nome}, #{bairro.localidade.nome} - #{bairro.localidade.uf}</p:column>
+							<!-- AJAX QUE PREENCHE LOCALIDADE -->
+							<p:ajax event="itemSelect"
+								listener="#{pessoaController.preencherLocalidadePeloBairro}"
+								update="pnl-localidade" />
+						</p:autoComplete>
+					</div>
+					<div class="ui-g-2 ui-md-2 ui-lg-2 ui-g-nopad">
+						<p:commandButton id="btn-add-bairro" styleClass="btn-g"
+							icon="fa fa-fw fa-file-text-o" title="Novo Bairro"
+							update="dlg-bairro" process="@this"
+							action="#{bairroController.novo()}"
+							disabled="#{pessoaController.semCep != true}" />
+					</div>
+				</div>
+			</h:panelGroup>
+
+			<!-- LOCALIDADE -->
+			<h:panelGroup id="pnl-localidade"
+				disabled="#{pessoaController.semCep != true}">
+				<p:outputLabel value="Localidade" for="localidade" />
+				<div class="ui-grid-row">
+					<div class="ui-g-10 ui-md-10 ui-lg-10 ui-g-nopad">
+						<p:autoComplete value="#{pessoaController.endereco.localidade}"
+							id="localidade"
+							completeMethod="#{localidadeCompleteController.completeByNome}"
+							var="loc" itemLabel="#{loc.nome.concat(' - ').concat(loc.uf)}"
+							itemValue="#{loc}" converter="#{entityConverter}"
+							forceSelection="true" minQueryLength="3" maxResults="8"
+							disabled="#{pessoaController.semCep != true}">
+							<p:column>#{loc.nome} - #{loc.uf}</p:column>
+						</p:autoComplete>
+					</div>
+					<div class="ui-g-2 ui-md-2 ui-lg-2 ui-g-nopad">
+						<p:commandButton id="btn-add-localidade"
+							icon="fa fa-fw fa-file-text-o" title="Nova Localidade"
+							styleClass="btn-g" process="@this" update="dlg-localidade"
+							action="#{localidadeController.novo}"
+							disabled="#{pessoaController.semCep != true}" />
+					</div>
+				</div>
+			</h:panelGroup>
+		</p:panelGrid>
+	</p:outputPanel>
+	<!-- </p:panel> -->
+
+</ui:composition>

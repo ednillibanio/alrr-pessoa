@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:f="http://xmlns.jcp.org/jsf/core"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:al="http://xmlns.jcp.org/jsf/composite/components/commons"
+	xmlns:o="http://omnifaces.org/ui"
+	xmlns:c="http://xmlns.jcp.org/jsp/jstl/core"
+	xmlns:ph="http://xmlns.jcp.org/jsf/passthrough" lang="pt-br">
+
+<ui:composition template="/default.xhtml">
+
+	<ui:define name="content">
+
+		<o:form id="frm-aniversariantes">
+			<o:importFunctions type="org.omnifaces.el.functions.Dates" var="of" />
+			<div class="ui-responsive">
+				<div class="ui-g">
+					<h1>Lista de Aniversariantes</h1>
+				</div>
+				<p:separator />
+
+
+				<br />
+				<div class="ui-g">
+					<div class="ui-g-1"></div>
+					<div class="ui-g-10">
+						<div class="ui-g">
+							<div class="ui-lg-4 ui-md-4 ui-g-nopad" />
+							<div class="ui-lg-8 ui-md-8 ui-g-nopad">
+								<p:selectOneButton
+									style="float: right; margin-left:0px !important"
+									styleClass="ui-g-nopad"
+									converter="omnifaces.GenericEnumConverter"
+									value="#{contatoAniversarioController.aniversarioPeriodoSelecionado}">
+									<f:selectItems value="#{contatoAniversarioController.periodos}"
+										var="periodo" itemLabel="#{periodo.label}"
+										itemValue="#{periodo}" />
+									<p:ajax update="dt-contato" event="change"
+										listener="#{contatoAniversarioController.preencherLista()}"
+										process="@this" />
+								</p:selectOneButton>
+							</div>
+						</div>
+						<div class="ui-g">
+							<p:dataTable var="contato" id="dt-contato"
+								value="#{contatoAniversarioController.dataModel}"
+								selection="#{contatoAniversarioController.entity}"
+								selectionMode="single" sortBy="#{contato.dataNascimento}"
+								expandableRowGroups="true" reflow="true" paginator="true"
+								paginatorTemplate="{PreviousPageLink} {NextPageLink}"
+								styleClass="dt-lista"
+								emptyMessage="Nenhum aniversariante encontrado.">
+								<f:facet name="header">
+								Aniversariantes - #{contatoAniversarioController.mesAniversariantes}
+								</f:facet>
+								<p:headerRow>
+									<p:column colspan="2">
+										<h:outputText value="#{contato.diaSemanaAniversarioAsString}" />
+										<h:outputText value="Dia #{contato.diaAniversario}"
+											style="float:right" />
+
+									</p:column>
+								</p:headerRow>
+								<p:column>
+									<h:outputText value="#{contato.nome}" />
+								</p:column>
+								<p:column>
+									<h:outputText value="#{contato.email}" />
+
+								</p:column>
+							</p:dataTable>
+						</div>
+					</div>
+					<div class="ui-g-1"></div>
+				</div>
+			</div>
+		</o:form>
+
+
+	</ui:define>
+</ui:composition>
+</html>

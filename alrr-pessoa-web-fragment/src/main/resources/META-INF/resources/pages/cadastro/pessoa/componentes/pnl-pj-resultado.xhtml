@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:f="http://xmlns.jcp.org/jsf/core"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:al="http://xmlns.jcp.org/jsf/composite/components/commons"
+	xmlns:o="http://omnifaces.org/ui"
+	xmlns:c="http://xmlns.jcp.org/jsp/jstl/core"
+	xmlns:ph="http://xmlns.jcp.org/jsf/passthrough">
+
+
+	<!--  R E S U L T A D O  D A  P E S Q U I S A  -->
+	<p:dataTable id="result" value="#{pessoaJuridicaController.dataModel}"
+		selection="#{pessoaJuridicaController.entity}" var="pj"
+		paginator="true" rows="15" rowsPerPageTemplate="9,15,30"
+		selectionMode="single" emptyMessage="Nenhum registro encontrado"
+		reflow="true"
+		paginatorTemplate="{Exporters} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+		draggableColumns="true" paginatorPosition="top"
+		paginatorAlwaysVisible="true" styleClass="pnl-resultado">
+
+		<!--  T I T U L O   D A T A T A B L E  -->
+		<f:facet name="header">
+			<h:outputLabel value="Resultado" />
+		</f:facet>
+
+		<f:facet name="{Exporters}">
+			<div style="float: right !important">
+				<p:commandLink ajax="false">
+					<p:graphicImage library="img" name="excel.png" width="32" />
+					<p:dataExporter type="xls" target="result" fileName="contatos" />
+				</p:commandLink>
+				<p:commandLink ajax="false">
+					<p:graphicImage library="img" name="pdf.png" width="32" />
+					<p:dataExporter type=" pdf" target="result" fileName="contatos" />
+				</p:commandLink>
+				<p:commandLink ajax="false">
+					<p:graphicImage library="img" name="csv.png" width="32" />
+					<p:dataExporter type="csv" target="result" fileName="contatos" />
+				</p:commandLink>
+
+			</div>
+			<p:commandLink ajax="false">
+				<p:graphicImage library="img" name="xml.png" width="32" />
+				<p:dataExporter type="xml" target="result" fileName="contatos" />
+			</p:commandLink>
+
+		</f:facet>
+
+
+		<p:ajax event="contextMenu" update=":frm-pj-pesquisar:result" />
+
+		<!-- INCLUIR O DATA EXPORT AQUI. MAS PRA ISSO TEM QUE ARRUMAR O paginatorTemplate do datatable e incluir {Exporters} lá. -->
+
+
+
+		<!--  C O L U N A:  N O M E  F A N T A S I A  -->
+		<p:column id="nome-fantasia" sortBy="#{pj.nomeFantasia}" width="40%"
+			headerText="Nome Fantasia">
+			<h:outputText value="#{pj.nomeFantasia}" />
+		</p:column> -->
+
+
+
+		<!--  C O L U N A:  C N P J  -->
+		<p:column sortBy="#{pj.cnpj}" id="cnpj" width="15%" headerText="Cnpj">
+			<h:outputText value="#{pj.cnpj}" converter="#{cnpjConverter}" />
+		</p:column>
+
+		<!--  C O L U N A:  C N P J  -->
+		<p:column sortBy="#{pj.natureza}" id="nat" width="15%"
+			headerText="Natureza">
+			<h:outputText value="#{pj.natureza.label}" />
+		</p:column>
+
+
+		<!--  C O L U N A:   T E L E F O N E S  -->
+		<p:column sortBy="#{pj.telefones}" id="tels" width="20%"
+			headerText="Telefones">
+			<ui:repeat var="tel" value="#{pj.telefones.toArray()}" varStatus="i">
+				<h:outputText value="#{tel}" converter="#{telefoneConverter}" />  #{i.last==true ? "" : " / "}
+				
+			</ui:repeat>
+		</p:column>
+
+	</p:dataTable>
+
+	<!-- ContextMenu deve sempre vir depois do datable para funcionar a seleção pelo botão direito do mouse. -->
+	<p:contextMenu for="result">
+
+		<!-- ********* BOTAO DETALHES ********* -->
+		<!-- <p:menuitem value="Detalhes"
+				action="#{contatoController.detalhes()}"
+				update=":frm-contato-detalhes :frm-contato-detalhes:pnl-detalhes">
+			</p:menuitem> -->
+
+
+		<!-- ********* BOTAO EDITAR ********* -->
+		<p:menuitem value="Editar"
+			action="#{pessoaJuridicaController.editar()}" />
+
+	</p:contextMenu>
+
+
+</ui:composition>

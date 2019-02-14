@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:alrr="http://java.sun.com/jsf/composite/components/commons"
+	xmlns:o="http://omnifaces.org/ui">
+
+<ui:composition xmlns:alrr="http://al.rr.leg.br/commons/facelets">
+
+	<!-- <f:event type="preRenderView" listener="#{sessaoController.carregar}" /> -->
+	<h:form id="frm-alrr" prependId="false">
+
+		<p:panel styleClass="ui-panelgrid-blank ui-fluid">
+			<p:button value="Agenda" icon="fa fa-address-book" outcome="home"
+				style="ui-responsive" />
+			<p:separator />
+			<h:panelGroup>
+				<h:outputLabel value="Agenda Selecionada" />
+				<p:autoComplete id="sessao-agendas" dropdown="true"
+					value="#{sessaoController.agendaSelecionada}"
+					converter="#{entityConverter}"
+					completeMethod="#{sessaoController.completeAgendas}" var="agenda"
+					emptyMessage="Nenhuma agenda foi encontrada" itemValue="#{agenda}"
+					itemLabel="#{agenda.nome}">
+				</p:autoComplete>
+			</h:panelGroup>
+
+			<p:panelMenu>
+
+				<!--  C A D A S T R O  -->
+				<p:submenu label="Cadastro" expanded="true" icon="fa fa-handshake-o"
+					styleClass="submenu">
+
+
+					<!--  M E N U:  P E S S O A  F Í S I C A  -->
+					<p:submenu label="Pessoa Física" expanded="true"
+						styleClass="submenu">
+
+						<p:menuitem value="Novo" outcome="cad-pessoa-fisica"
+							styleClass="menuitem" />
+
+						<p:menuitem value="Pesquisar" outcome="pg-pessoa-fisica"
+							styleClass="menuitem" />
+
+					</p:submenu>
+
+
+					<!--  M E N U:  P E S S O A  F Í S I C A  -->
+					<p:submenu label="Servidor Público" expanded="true"
+						styleClass="submenu">
+
+						<p:menuitem value="Novo" outcome="cad-servidor-publico"
+							styleClass="menuitem" />
+
+						<p:menuitem value="Pesquisar" outcome="pg-servidor-publico" />
+
+					</p:submenu>
+
+
+					<!--  M E N U:  P E S S O A  J U R Í D I C A  -->
+					<p:submenu label="Pessoa Jurídica" expanded="true"
+						styleClass="submenu">
+
+						<p:menuitem value="Novo" outcome="cad-pessoa-juridica"
+							styleClass="menuitem" />
+
+						<p:menuitem value="Pesquisar" outcome="pg-pessoa-juridica"
+							styleClass="menuitem" />
+					</p:submenu>
+
+
+				</p:submenu>
+
+
+
+
+				<!-- CONTATO -->
+				<p:submenu label="Contatos" expanded="true" styleClass="submenu">
+
+
+					<!-- MENU: NOVO -->
+					<p:menuitem value="Novo" icon="fa fa-male"
+						outcome="contato-pf-novo" />
+
+					<p:menuitem value="Lista" icon="fa fa-list"
+						outcome="contatos-lista">
+						<f:param name="i" value="0" />
+					</p:menuitem>
+
+
+					<!-- MENU: ANIVERSARIANTES -->
+					<p:menuitem value="Aniversariantes" icon="fa fa-birthday-cake"
+						outcome="contatos-pf-aniversariantes" />
+
+					<!-- MENU: PESQUISAR -->
+					<p:menuitem value="Pesquisar" icon="fa fa-search"
+						outcome="contato-pf-pesquisar" />
+
+				</p:submenu>
+
+				<!-- CONFIGURAÇÕES -->
+				<p:submenu label="Configurações" expanded="true"
+					styleClass="submenu">
+					<p:menuitem value="Feriados" icon="fa fa-calendar"
+						outcome="pg-feriado" />
+					<p:menuitem value="Bairros" icon="fa fa-map-marker"
+						outcome="pg-bairro" />
+					<p:menuitem value="Municípios" icon="fa fa-map-marker"
+						outcome="pg-localidade" />
+					<p:menuitem value="Deputados" icon="fa fa-users"
+						outcome="pg-deputado" />
+
+				</p:submenu>
+
+			</p:panelMenu>
+
+			<p:separator />
+			<!-- SAIR -->
+			<p:commandButton value="Sair" icon="ui-icon ui-icon-power"
+				label="Sair" />
+		</p:panel>
+	</h:form>
+</ui:composition>
+</html>

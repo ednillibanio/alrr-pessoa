@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:f="http://xmlns.jcp.org/jsf/core"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:al="http://xmlns.jcp.org/jsf/composite/components/commons"
+	xmlns:o="http://omnifaces.org/ui"
+	xmlns:c="http://xmlns.jcp.org/jsp/jstl/core"
+	xmlns:ph="http://xmlns.jcp.org/jsf/passthrough">
+
+	<!--  *******************************-->
+	<!--  P A I N E L:  C O N T A T O S  -->
+	<!--  *******************************-->
+
+
+	<!--  C A M P O:  T E L E F O N E  F I X O  -->
+	<h:panelGroup>
+		<h:outputLabel value="Telefone Fixo" for="tel-fixo" />
+		<p:inputMask id="tel-fixo" value="#{pessoaController.telefoneFixo}"
+			mask="(99) 9999-9999" converter="#{telefoneConverter}"
+			title="Informe o número do telefone fixo para contato" />
+		<p:message for="tel-fixo" display="tooltip" />
+	</h:panelGroup>
+
+
+	<!--  C A M P O:  C E L U L A R  -->
+	<h:panelGroup>
+		<h:outputLabel value="Celular" for="celular" />
+		<p:inputMask id="celular" value="#{pessoaController.celular}"
+			mask="?(99) 99999-9999" label="Celular"
+			title="Informe o número do celular para contato"
+			converter="#{telefoneConverter}" />
+		<p:message for="celular" display="tooltip" />
+	</h:panelGroup>
+
+
+	<!--  C A M P O:  F A X  -->
+	<h:panelGroup>
+		<h:outputLabel value="Fax" for="fax" />
+		<p:inputMask id="fax" value="#{pessoaController.fax}"
+			mask="(99) 9999-9999" converter="#{telefoneConverter}"
+			title="Informe o número do fax" />
+		<p:message for="fax" display="tooltip" />
+	</h:panelGroup>
+
+
+
+	<!--  C A M P O:  E M A I L  -->
+
+	<h:panelGroup>
+		<h:outputLabel value="Email" for="email" />
+		<p:inputText id="email" title="Informe o email para contato"
+			type="email" value="#{pessoaController.email}" maxlength="250" />
+		<p:message for="email" display="tooltip" />
+	</h:panelGroup>
+
+</ui:composition>

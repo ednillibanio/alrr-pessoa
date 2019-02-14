@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:f="http://xmlns.jcp.org/jsf/core"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:al="http://xmlns.jcp.org/jsf/composite/components/commons"
+	xmlns:o="http://omnifaces.org/ui"
+	xmlns:c="http://xmlns.jcp.org/jsp/jstl/core"
+	xmlns:ph="http://xmlns.jcp.org/jsf/passthrough">
+
+	<!-- FILTRO DE PESQUISA -->
+	<p:panel header="Filtros" toggleable="true">
+
+		<div class="ui-fluid">
+			<p:panelGrid columns="4" layout="grid"
+				styleClass="ui-panelgrid-blank"
+				columnClasses="ui-grid-col-2,ui-grid-col-4,ui-grid-col-2,ui-grid-col-4"
+				id="pnl-filtro">
+
+				<!--  C A M P O:  N O M E  -->
+				<p:outputLabel value="Nome" for="nome" />
+				<p:inputText id="nome" label="Nome"
+					value="#{pessoaFisicaController.nome}" />
+
+				<!--  F I L T R O:  C P F  -->
+				<p:outputLabel value="CPF" for="cpf" />
+				<p:inputText id="cpf" label="CPF"
+					value="#{pessoaFisicaController.cpf}" />
+
+				<!--  C A M P O:  S E X O  -->
+				<p:outputLabel value="Sexo" label="Sexo" for="sexo" />
+				<p:selectOneButton id="sexo" label="Sexo"
+					value="#{pessoaFisicaController.sexo}">
+					<f:selectItems value="#{cadastroEnumFactory.sexos}" var="sexo"
+						itemValue="#{sexo}" itemLabel="#{sexo.label}" />
+				</p:selectOneButton>
+
+
+				<!--  C A M P O:  E S T A D O  C I V  I L -->
+				<p:outputLabel value="Estado Civil" for="estado-civil" />
+				<p:selectCheckboxMenu id="estado-civil" multiple="true"
+					value="#{pessoaFisicaController.estadosCivisSelecionados}"
+					converter="#{omnifaces.GenericEnumConverter}">
+					<f:selectItems value="#{cadastroEnumFactory.estadosCivis}"
+						var="estcivil" itemValue="#{estcivil}"
+						itemLabel="#{estcivil.label}" />
+				</p:selectCheckboxMenu>
+			</p:panelGrid>
+			<o:validateOneOrMore id="validar"
+				components="nome cpf sexo estado-civil"
+				message="Informe pelo menos um filtro." />
+
+
+		</div>
+
+		<f:facet name="footer">
+			<div class="ui-g">
+
+				<!-- PESQUISAR -->
+				<div class="ui-lg-2 ui-md-2" />
+				<div class="ui-g-12 ui-lg-4 ui-md-4 ui-fluid">
+					<p:commandButton id="btn-pesquisar" value="Pesquisar"
+						styleClass="btn-lg" icon="fa fa-fw fa-search" title="Pesquisar"
+						action="#{pessoaFisicaController.pesquisar()}"
+						update="@form result">
+					</p:commandButton>
+				</div>
+
+
+				<!-- LIMPAR -->
+				<div class="ui-g-12 ui-lg-4 ui-md-4 ui-fluid">
+					<p:commandButton value="Limpar" id="btn-limpar" styleClass="btn-lg"
+						icon="fa fa-fw fa-refresh" title="Limpar"
+						actionListener="#{pessoaFisicaController.limpar()}"
+						update="frm-pf-pesquisar" process="@this">
+						<o:ignoreValidationFailed />
+					</p:commandButton>
+				</div>
+				<div class="ui-lg-2 ui-md-2" />
+			</div>
+		</f:facet>
+
+	</p:panel>
+</ui:composition>

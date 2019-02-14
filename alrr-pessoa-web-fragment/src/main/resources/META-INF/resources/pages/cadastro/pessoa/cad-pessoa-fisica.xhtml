@@ -1,0 +1,158 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:f="http://xmlns.jcp.org/jsf/core"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:al="http://xmlns.jcp.org/jsf/composite/components/commons"
+	xmlns:o="http://omnifaces.org/ui"
+	xmlns:c="http://xmlns.jcp.org/jsp/jstl/core"
+	xmlns:ph="http://xmlns.jcp.org/jsf/passthrough" lang="pt-br">
+
+<ui:composition template="/default.xhtml">
+
+	<ui:define name="content">
+		<div class="ui-g ui-responsive">
+			<div class="ui-md-2 ui-lg-1" />
+			<div class="ui-g-12 ui-md-8 ui-lg-10">
+				<h1 class="view-titulo">
+					<strong>Cadastro Pessoa Física</strong>
+				</h1>
+				<p:separator styleClass="view-titulo-sep" />
+				<div class="ui-g nopad" style="float: right">
+					<p:outputLabel id="info" styleClass="fa fa-info-circle fa-lg fa-4x"
+						style="font-size:48px;"
+						title="Esta funcionalidade é responsável por manter as permissões de acesso a um sistema. Um Objeto pode ter várias permissões. Por exemplo, o objeto Perfil do sistema Controle de Acesso tem permissões de incluir, editar e consultar." />
+				</div>
+
+				<p:spacer height="20" />
+
+				<o:form id="frm-pf"
+					onkeypress="if( event.keyCode == 13){event.keyCode=0;}">
+					<p:growl id="msgs" sticky="true" />
+					<p:tooltip />
+
+
+
+					<!-- TOOLBAR BOTOES: SALVAR, FECHAR E NOVO -->
+					<p:panel styleClass="nopad pnl-cadastro">
+
+						<p:toolbar id="tb">
+							<f:facet name="left">
+
+
+								<!--  B O T A O:  S A L V A R  -->
+								<p:commandButton id="btn-salvar" title="Salvar" value="Salvar"
+									icon="fa fa-fw fa-floppy-o" validateClient="true"
+									action="#{pessoaFisicaController.salvar()}" update="msgs" />
+
+
+								<!--  B O T A O:  F E C H A R  -->
+								<p:button value="Fechar" id="btn-fechar"
+									icon="fa fa-fw fa-times" title="Fechar"
+									outcome="pg-pessoa-fisica" />
+
+
+								<span class="ui-separator"> <span
+									class="ui-icon ui-icon-grip-dotted-vertical"></span>
+								</span>
+
+
+								<!--  B O T A O:  R E N O V A R  -->
+								<p:commandButton value="Renovar" id="btn-renovar"
+									icon="fa fa-refresh" title="Renovar"
+									action="#{pessoaFisicaController.renovar()}"
+									rendered="#{pessoaFisicaController.isEditavel()}"
+									update="@form" />
+
+
+								<!--  B O T A O:  N O V O  -->
+								<p:commandButton id="btn-novo" icon="fa fa-fw fa-file-text"
+									value="Novo" title="Novo"
+									action="#{pessoaFisicaController.novo()}" immediate="true"
+									ajax="false" process="@this" />
+
+
+							</f:facet>
+						</p:toolbar>
+
+						<p:spacer height="10" />
+
+						<p:panelGrid columns="1"
+							styleClass="ui-panelgrid-blank ui-fluid nopad" layout="grid">
+
+							<p:panelGrid columns="2"
+								styleClass="ui-panelgrid-blank ui-responsive nopad"
+								columnClasses="ui-grid-col-3, ui-grid-col-9" layout="grid">
+								<ui:include src="componentes/pnl-pf-foto.xhtml" />
+
+								<h:panelGroup>
+									<div class="ui-g ui-responsive">
+										<div class="ui-lg-12 nopad-bottom">
+											<h3 class="pnl-titulo">
+												<strong>Dados Pessoais</strong>
+											</h3>
+										</div>
+									</div>
+									<div class="ui-g ui-responsive ui-fluid">
+										<div class="ui-lg-12 nopad-top">
+											<p:separator styleClass="pnl-titulo-sep" />
+										</div>
+									</div>
+
+									<!--  P A I N E L:  D A D O S  P E S S O A I S  -->
+									<p:panelGrid columns="2"
+										styleClass="ui-panelgrid-blank ui-responsive ui-fluid"
+										layout="grid" style="margin-bottom:20px !important;">
+										<ui:include src="componentes/pnl-cad-pf-dados-pessoais.xhtml" />
+									</p:panelGrid>
+
+
+									<div class="ui-g ui-responsive">
+										<div class="ui-lg-12 nopad-bottom">
+											<h3 class="pnl-titulo">
+												<strong>Contatos</strong>
+											</h3>
+										</div>
+									</div>
+									<div class="ui-g ui-responsive ui-fluid">
+										<div class="ui-lg-12 nopad-top">
+											<p:separator styleClass="pnl-titulo-sep" />
+										</div>
+									</div>
+
+
+									<!--  P A I N E L:  C O N T A T O S  -->
+									<p:panelGrid columns="2" columnClasses="column"
+										styleClass="ui-panelgrid-blank" layout="grid"
+										style="margin-bottom:20px !important;">
+										<ui:include src="componentes/pnl-pessoa-contatos.xhtml" />
+									</p:panelGrid>
+
+									<ui:include src="componentes/pnl-pessoa-endereco.xhtml" />
+								</h:panelGroup>
+
+							</p:panelGrid>
+						</p:panelGrid>
+					</p:panel>
+				</o:form>
+				<h:outputScript library="js" name="primefaces_client_validation.js" />
+				<h:outputScript library="js" name="validation_utils.js" />
+				<h:outputScript library="js" name="brasil_utils.js" />
+
+
+			</div>
+
+			<div class="ui-md-2 ui-lg-1" />
+		</div>
+		<ui:include src="/pages/commons/dlg-capturar-imagem.xhtml" />
+		<ui:include src="/pages/commons/dlg-escolher-imagem.xhtml" />
+		<ui:include src="/pages/commons/dlg-bairro.xhtml" />
+		<ui:include src="/pages/commons/dlg-localidade.xhtml" />
+
+
+	</ui:define>
+</ui:composition>
+</html>
+

@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:f="http://xmlns.jcp.org/jsf/core"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:al="http://xmlns.jcp.org/jsf/composite/components/commons"
+	xmlns:o="http://omnifaces.org/ui"
+	xmlns:c="http://xmlns.jcp.org/jsp/jstl/core"
+	xmlns:ph="http://xmlns.jcp.org/jsf/passthrough">
+
+	<!--   P A I N E L:  D A D O S   P E S S O A I S  -->
+
+
+	<p:panelGrid columns="2"
+		styleClass="ui-panelgrid-blank ui-responsive nopad-left nopad-right"
+		layout="grid" columnClasses="nopad-left nopad-right">
+
+		<!--  C N P J  -->
+		<h:panelGroup>
+			<p:outputLabel value="CNPJ" for="cnpj" title="Cnpj" />
+			<p:inputMask id="cnpj"
+				value="#{pessoaJuridicaController.entity.cnpj}"
+				title="Informe o CNPJ da pessoa jurídica"
+				converter="#{cnpjConverter}" maxlength="14"
+				mask="99.999.999/9999-99">
+			</p:inputMask>
+			<p:message for="cnpj" display="tooltip" />
+		</h:panelGroup>
+
+
+		<!--  I N S C R I Ç Ã O  E S T A D U A L  -->
+		<h:panelGroup>
+			<p:outputLabel value="Inscrição Estadual" for="insc-estadual"
+				title="Inscrição Estadual" />
+			<p:inputMask id="insc-estadual"
+				value="#{pessoaJuridicaController.entity.inscricaoEstadual}"
+				title="Informe a Inscrição Estadual da pessoa jurídica">
+			</p:inputMask>
+			<p:message for="insc-estadual" display="tooltip" />
+		</h:panelGroup>
+	</p:panelGrid>
+
+
+	<!--  C A M P O:  N O M E   F A N T A S I A  -->
+	<h:panelGroup>
+		<p:outputLabel value="Nome Fantasia" for="nome-fantasia"
+			title="Nome Fantasia" />
+		<p:inputText id="nome-fantasia"
+			title="Informe o nome fantasia da pessoa jurídica"
+			value="#{pessoaJuridicaController.entity.nomeFantasia}"
+			required="true" converter="#{capitalizeFullyConverter}">
+			<f:validateLength maximum="250" for="nome-fantasia" />
+		</p:inputText>
+		<p:message for="nome-fantasia" display="tooltip" />
+	</h:panelGroup>
+
+
+	<!--  C A M P O:  R A Z Ã O  S O C I A L  -->
+	<h:panelGroup>
+		<p:outputLabel value="Razão Social" for="razao-social"
+			title="Razão Social" />
+		<p:inputText id="razao-social"
+			title="Informe a razão social da pessoa jurídica"
+			value="#{pessoaJuridicaController.entity.razaoSocial}"
+			converter="#{capitalizeFullyConverter}">
+		</p:inputText>
+		<p:message for="razao-social" display="tooltip" />
+	</h:panelGroup>
+
+
+	<!-- C A M P O:  N A T U R E Z A -->
+	<h:panelGroup>
+		<p:outputLabel value="Natureza" for="pj-natureza" />
+		<p:selectOneButton id="pj-natureza" required="true"
+			value="#{pessoaJuridicaController.entity.natureza}"
+			converter="omnifaces.GenericEnumConverter">
+			<f:selectItems value="#{cadastroEnumFactory.pessoaJuridicaNaturezas}"
+				var="nat" itemValue="#{nat}" itemLabel="#{nat.label}" />
+		</p:selectOneButton>
+		<p:message for="pj-natureza" display="tooltip" />
+	</h:panelGroup>
+
+
+	<!--  C A M P O:  O B S E R V A Ç Ã O  -->
+	<h:panelGroup>
+		<p:outputLabel for="obs" value="Observação" />
+		<p:inputTextarea rows="6" id="obs"
+			value="#{pessoaJuridicaController.entity.observacao}" />
+	</h:panelGroup>
+
+
+</ui:composition>

@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:f="http://xmlns.jcp.org/jsf/core"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:al="http://xmlns.jcp.org/jsf/composite/components/commons"
+	xmlns:o="http://omnifaces.org/ui"
+	xmlns:c="http://xmlns.jcp.org/jsp/jstl/core"
+	xmlns:ph="http://xmlns.jcp.org/jsf/passthrough">
+
+	<!--  F I L T R O  D E  P E S Q U I S A  -->
+	<p:panel header="Filtros" toggleable="true">
+
+		<p:panelGrid columns="4" colspan="50"
+			styleClass="ui-panelgrid-blank ui-fluid ui-responsive" layout="grid"
+			columnClasses="ui-grid-col-2, ui-grid-col-4, ui-grid-col-2, ui-grid-col-4">
+
+
+			<!--  F I L T R O:  N O M E  F A N T A S I A  -->
+			<p:outputLabel value="Nome Fantasia" for="nome" />
+			<p:inputText id="nome" label="Nome"
+				value="#{pessoaJuridicaController.nome}" />
+
+			<!--  F I L T R O:  N A T U R E Z A -->
+			<p:outputLabel value="Natureza" for="pj-natureza" />
+			<p:selectOneButton id="pj-natureza"
+				value="#{pessoaJuridicaController.natureza}"
+				converter="#{omnifaces.GenericEnumConverter}">
+				<f:selectItems
+					value="#{cadastroEnumFactory.pessoaJuridicaNaturezas}" var="nat"
+					itemValue="#{nat}" itemLabel="#{nat.label}" />
+			</p:selectOneButton>
+
+
+			<!--  F I L T R O:  C N P J  -->
+			<p:outputLabel value="CPNJ" for="cnpj" />
+			<p:inputText id="cnpj" label="Cnpj"
+				value="#{pessoaJuridicaController.cnpj}" />
+
+
+		</p:panelGrid>
+		<o:validateOneOrMore id="validar" components="nome cnpj pj-natureza"
+			message="Informe pelo menos um filtro." />
+
+
+
+		<f:facet name="footer">
+			<div class="ui-g">
+
+				<!-- PESQUISAR -->
+				<div class="ui-lg-2 ui-md-2" />
+				<div class="ui-g-12 ui-lg-4 ui-md-4 ui-fluid">
+					<p:commandButton id="btn-pesquisar" value="Pesquisar"
+						styleClass="btn-lg" icon="fa fa-fw fa-search" title="Pesquisar"
+						action="#{pessoaJuridicaController.pesquisar()}"
+						update="@form result">
+					</p:commandButton>
+				</div>
+
+
+				<!-- LIMPAR -->
+				<div class="ui-g-12 ui-lg-4 ui-md-4 ui-fluid">
+					<p:commandButton value="Limpar" id="btn-limpar" styleClass="btn-lg"
+						icon="fa fa-fw fa-refresh" title="Limpar"
+						actionListener="#{pessoaJuridicaController.limpar()}"
+						update="frm-pj-pesquisar" process="@form">
+						<o:ignoreValidationFailed />
+					</p:commandButton>
+				</div>
+				<div class="ui-lg-2 ui-md-2" />
+			</div>
+		</f:facet>
+	</p:panel>
+</ui:composition>

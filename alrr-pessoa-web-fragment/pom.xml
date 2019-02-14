@@ -1,0 +1,52 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<artifactId>alrr-pessoa-web-fragment</artifactId>
+	<name>alrr-pessoa-web-fragment</name>
+	<modelVersion>4.0.0</modelVersion>
+	<parent>
+		<groupId>br.leg.rr.al.pessoa</groupId>
+		<artifactId>alrr-pessoa</artifactId>
+		<version>1.0.0-SNAPSHOT</version>
+	</parent>
+	<developers>
+		<developer>
+			<name>Ednil Libanio da Costa Junior</name>
+			<email>ednil.libanio@gmail.com</email>
+			<organization>Assembleia Legislativa de Roraima</organization>
+			<url>www.al.rr.leg.br</url>
+		</developer>
+	</developers>
+	<dependencies>
+		<dependency>
+			<groupId>br.leg.rr.al.pessoa</groupId>
+			<artifactId>alrr-pessoa-ejb</artifactId>
+			<type>ejb</type>
+			<scope>provided</scope>
+		</dependency>
+		<dependency>
+			<groupId>br.leg.rr.al.pessoa</groupId>
+			<artifactId>alrr-pessoa-jpa</artifactId>
+			<scope>provided</scope>
+		</dependency>
+		<dependency>
+			<groupId>br.leg.rr.al.pessoa</groupId>
+			<artifactId>alrr-pessoa-utils</artifactId>
+			<scope>provided</scope>
+		</dependency>
+		<dependency>
+			<groupId>br.leg.rr.al.core</groupId>
+			<artifactId>alrr-core-web-utils</artifactId>
+			<scope>provided</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.hibernate.validator</groupId>
+			<artifactId>hibernate-validator</artifactId>
+			<scope>provided</scope>
+		</dependency>
+		<dependency>
+			<groupId>br.leg.rr.al.localidade</groupId>
+			<artifactId>alrr-localidade-utils</artifactId>
+		</dependency>
+	</dependencies>
+</project>

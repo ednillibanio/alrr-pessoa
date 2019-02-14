@@ -1,0 +1,140 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:f="http://xmlns.jcp.org/jsf/core"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:al="http://xmlns.jcp.org/jsf/composite/components/commons"
+	xmlns:o="http://omnifaces.org/ui"
+	xmlns:c="http://xmlns.jcp.org/jsp/jstl/core"
+	xmlns:ph="http://xmlns.jcp.org/jsf/passthrough" lang="pt-br">
+
+<ui:composition template="/default.xhtml">
+
+	<ui:define name="content">
+		<div class="ui-g ui-responsive">
+			<div class="ui-md-2 ui-lg-1" />
+			<div class="ui-g-12 ui-md-8 ui-lg-10">
+				<h1 class="view-titulo">
+					<strong>Cadastro Pessoa Jurídica</strong>
+				</h1>
+				<p:separator styleClass="view-titulo-sep" />
+				<div class="ui-g nopad" style="float: right">
+					<p:outputLabel id="info" styleClass="fa fa-info-circle fa-lg fa-4x"
+						style="font-size:48px;"
+						title="Esta funcionalidade é responsável por manter as permissões de acesso a um sistema. Um Objeto pode ter várias permissões. Por exemplo, o objeto Perfil do sistema Controle de Acesso tem permissões de incluir, editar e consultar." />
+				</div>
+
+				<p:spacer height="20" />
+
+				<o:form id="frm-pj">
+
+					<p:growl id="msgs" sticky="true" />
+					<p:tooltip />
+					<p:sticky target="tb" />
+
+
+					<p:panel styleClass="nopad pnl-cadastro">
+
+						<p:toolbar id="tb">
+							<f:facet name="left">
+
+								<!--  B O T A O:  S A L V A R  -->
+								<p:commandButton id="btn-salvar" title="Salvar" value="Salvar"
+									icon="fa fa-fw fa-floppy-o" validateClient="true"
+									action="#{pessoaJuridicaController.salvar()}" update="msgs" />
+
+
+								<!--  B O T A O:  F E C H A R  -->
+								<p:commandButton value="Fechar" id="btn-fechar"
+									icon="fa fa-fw fa-times" immediate="true"
+									action="pg-pessoa-juridica" />
+
+
+								<span class="ui-separator"> <span
+									class="ui-icon ui-icon-grip-dotted-vertical" />
+								</span>
+
+
+								<!--  B O T A O:  R E N O V A R  -->
+								<p:commandButton value="Renovar" id="btn-renovar"
+									icon="fa fa-refresh" title="Renovar"
+									action="#{pessoaJuridicaController.renovar()}"
+									rendered="#{pessoaJuridicaController.isEditavel()}"
+									update="@form" />
+
+
+								<!--  B O T A O:  N O V O  -->
+								<p:commandButton id="btn-novo" icon="fa fa-fw fa-file-text"
+									value="Novo" title="Novo"
+									action="#{pessoaJuridicaController.novo()}" immediate="true"
+									ajax="false" process="@this" />
+							</f:facet>
+
+						</p:toolbar>
+
+						<p:spacer height="10" />
+
+						<p:panelGrid columns="1"
+							styleClass="ui-panelgrid-blank ui-responsive ui-fluid nopad"
+							layout="grid">
+							<p:panelGrid columns="2"
+								styleClass="ui-panelgrid-blank ui-responsive nopad"
+								columnClasses="ui-grid-col-6 nopad-left,  ui-grid-col-6 nopad-right"
+								layout="grid">
+
+								<h:panelGroup>
+									<div class="ui-g ui-responsive">
+										<div class="ui-lg-12 nopad-bottom">
+											<h3 class="pnl-titulo">
+												<strong>Dados Pessoais</strong>
+											</h3>
+										</div>
+									</div>
+									<div class="ui-g ui-responsive ui-fluid">
+										<div class="ui-lg-12 nopad-top">
+											<p:separator styleClass="pnl-titulo-sep" />
+										</div>
+									</div>
+
+									<ui:include src="componentes/pnl-pj-dados-pessoais.xhtml" />
+								</h:panelGroup>
+
+
+								<h:panelGroup>
+									<div class="ui-g ui-responsive">
+										<div class="ui-lg-12 nopad-bottom">
+											<h3 class="pnl-titulo">
+												<strong>Contatos</strong>
+											</h3>
+										</div>
+									</div>
+									<div class="ui-g ui-responsive ui-fluid">
+										<div class="ui-lg-12 nopad-top">
+											<p:separator styleClass="pnl-titulo-sep" />
+										</div>
+									</div>
+									<p:panelGrid columns="1"
+										styleClass="ui-panelgrid-blank ui-responsive nopad"
+										layout="grid">
+										<ui:include src="componentes/pnl-pessoa-contatos.xhtml" />
+									</p:panelGrid>
+								</h:panelGroup>
+							</p:panelGrid>
+							<ui:include src="componentes/pnl-pessoa-endereco.xhtml" />
+						</p:panelGrid>
+					</p:panel>
+				</o:form>
+			</div>
+			<div class="ui-md-2 ui-lg-1" />
+			<h:outputScript library="js" name="primefaces_client_validation.js" />
+			<h:outputScript library="js" name="brasil_utils.js" />
+
+		</div>
+		<ui:include src="/pages/commons/dlg-bairro.xhtml" />
+		<ui:include src="/pages/commons/dlg-localidade.xhtml" />
+	</ui:define>
+</ui:composition>
+</html>
+

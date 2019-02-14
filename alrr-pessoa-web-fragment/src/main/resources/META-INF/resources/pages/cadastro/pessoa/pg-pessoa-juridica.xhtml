@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:al="http://java.sun.com/jsf/composite/components/commons"
+	xmlns:c="http://java.sun.com/jsp/jstl/core" lang="pt-br"
+	xmlns:o="http://omnifaces.org/ui">
+
+<ui:composition template="/default.xhtml">
+
+	<ui:define name="content">
+		<div class="ui-g ui-responsive">
+
+			<div class="ui-md-2 ui-lg-1" />
+			<div class="ui-md-8 ui-lg-10">
+				<div class="ui-g nopad">
+					<h1 class="view-titulo" id="pg-titulo">
+						<strong>Pesquisar Pessoa Jurídica</strong>
+					</h1>
+				</div>
+				<p:separator />
+				<div class="ui-g nopad" style="float: right">
+					<p:outputLabel id="info" styleClass="fa fa-info-circle fa-lg fa-4x"
+						style="font-size:48px;"
+						title="Esta funcionalidade é responsável por manter os perfis de usuário. Um perfil de usuário pode ser associados a vários sistemas. Para que o perfil fique disponível no sistema, é necessário vinculá-lo. Para isso, acesse o menu Sistema e Perfis. " />
+				</div>
+
+				<p:spacer height="20" />
+
+				<o:form id="frm-pj-pesquisar">
+
+					<span class="ui-g ui-fluid" style="margin-top: 30px;"><i><b>(*)</b>
+							Informe pelo menos um campo do filtro.</i></span>
+
+					<ui:include src="componentes/pnl-pj-filtro.xhtml" />
+
+					<p:messages id="msgs" styleClass="msgs" />
+
+					<!-- RESULTADO PESQUISA -->
+					<p:outputPanel
+						rendered="#{pessoaJuridicaController.entities.size()>0}">
+						<p:separator />
+						<ui:include src="componentes/pnl-pj-resultado.xhtml" />
+					</p:outputPanel>
+				</o:form>
+			</div>
+			<div class="ui-md-2 ui-lg-1" />
+		</div>
+	</ui:define>
+</ui:composition>
+</html>
+

@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<persistence version="2.1"
+	xmlns="http://xmlns.jcp.org/xml/ns/persistence"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/persistence http://xmlns.jcp.org/xml/ns/persistence/persistence_2_1.xsd">
+	<persistence-unit name="alrr-pessoa-ear">
+
+		<provider>org.hibernate.ejb.HibernatePersistence</provider>
+		<!-- DATA SOURCE -->
+		<jta-data-source>java:jboss/datasources/pessoa-ds</jta-data-source>
+
+		<!-- <jar-file>lib/alrr-pessoa-jpa-1.0.0.jar</jar-file> -->
+
+		<exclude-unlisted-classes>true</exclude-unlisted-classes>
+		<validation-mode>AUTO</validation-mode>
+
+		<properties>
+			<property name="wildfly.jpa.default-unit" value="true" />
+			<property name="hibernate.default_schema"
+				value="localidade_schema" />
+			<!-- <property name="javax.persistence.schema-generation.database.action" 
+				value="create" /> -->
+			<!-- <property name="javax.persistence.schema-generation.create-database-schemas" 
+				value="true" /> -->
+			<property name="hibernate.show_sql" value="true" />
+			<property name="hibernate.format_sql" value="true" />
+			<property name="hibernate.connection.useUnicode"
+				value="true" />
+			<property name="hibernate.connection.characterEncoding"
+				value="UTF-8" />
+			<property name="log4j.logger.org.hibernate.SQL"
+				value="debug" />
+			<property name="log4j.logger.org.hibernate.type"
+				value="info" />
+			<property name="log4j.logger.org.hibernate.transaction"
+				value="debug" />
+			<property name="hibernate.search.default.directory_provider"
+				value="filesystem" />
+			<property name="hibernate.search.default.indexBase"
+				value="./lucene/indexes" />
+			<property name="wildfly.jpa.hibernate.search.module"
+				value="org.hibernate.search.orm:main" />
+			<!-- <property name="hibernate.search.analyzer" value="br.leg.rr.al.core.jpa.EntityAnalyzer" 
+				/> -->
+			<!-- CONFIGURAÇÃO DE AUDITORIA. SERÁ USADO PARA A ENTIDADE ATENDIMENTO -->
+
+		</properties>
+	</persistence-unit>
+</persistence>

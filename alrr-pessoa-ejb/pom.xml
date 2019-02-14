@@ -1,0 +1,79 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<artifactId>alrr-pessoa-ejb</artifactId>
+	<packaging>ejb</packaging>
+	<name>alrr-pessoa-ejb</name>
+	<parent>
+		<groupId>br.leg.rr.al.pessoa</groupId>
+		<artifactId>alrr-pessoa</artifactId>
+		<version>1.0.0-SNAPSHOT</version>
+	</parent>
+	<organization>
+		<name>Assembleia Legislativa de Roraima</name>
+		<url>https://www.al.rr.leg.br</url>
+	</organization>
+	<developers>
+		<developer>
+			<id>ednil</id>
+			<name>Ednil Libanio da Costa Junior</name>
+			<email>ednil.libanio@gmail.com</email>
+			<roles>
+				<role>Analista de Sistema</role>
+			</roles>
+		</developer>
+	</developers>
+	<build>
+		<plugins>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-ejb-plugin</artifactId>
+			</plugin>
+		</plugins>
+	</build>
+	<dependencies>
+		<dependency>
+			<groupId>com.google.code.gson</groupId>
+			<artifactId>gson</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>br.leg.rr.al.core</groupId>
+			<artifactId>alrr-core-utils</artifactId>
+			<scope>provided</scope>
+		</dependency>
+		<dependency>
+			<groupId>br.leg.rr.al.pessoa</groupId>
+			<artifactId>alrr-pessoa-jpa</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>br.leg.rr.al.pessoa</groupId>
+			<artifactId>alrr-pessoa-utils</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.apache.commons</groupId>
+			<artifactId>commons-lang3</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>javax.validation</groupId>
+			<artifactId>validation-api</artifactId>
+			<scope>provided</scope>
+		</dependency>
+		<!-- Test scope dependencies -->
+
+		<!-- Optional, but highly recommended -->
+		<!-- Arquillian allows you to test enterprise code such as EJBs and Transactional(JTA) 
+			JPA from JUnit/TestNG -->
+
+		<dependency>
+			<groupId>org.hibernate.validator</groupId>
+			<artifactId>hibernate-validator</artifactId>
+			<scope>provided</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.jboss.spec.javax.ejb</groupId>
+			<artifactId>jboss-ejb-api_3.2_spec</artifactId>
+			<scope>provided</scope>
+		</dependency>
+	</dependencies>
+</project>
