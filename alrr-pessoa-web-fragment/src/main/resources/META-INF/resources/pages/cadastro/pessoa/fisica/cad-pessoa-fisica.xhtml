@@ -1,0 +1,185 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html>
+<!--
+/****************************************************************************************
+* ALE-RR Licença																		*
+* Copyright (C) 2018, ALE-RR															*
+* Boa Vista, RR - Brasil																*
+* Todos os direitos reservados.															*
+* 																						*
+* Este programa é propriedade da Assembleia Legislativa do Estado de Roraima e 			*
+* não é permitida a distribuição, alteração ou cópia da mesma sem prévia autoriazação.	*
+*																						*
+*																						*
+*****************************************************************************************
+* Autor:  Ednil Libanio da Costa Junior													*
+* Versão: 1.0.0 																		*
+****************************************************************************************/
+-->
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:f="http://xmlns.jcp.org/jsf/core"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:al="http://xmlns.jcp.org/jsf/composite/facelets/core"
+	xmlns:alcore="http://al.rr.leg.br/facelets/core"
+	xmlns:o="http://omnifaces.org/ui"
+	xmlns:c="http://xmlns.jcp.org/jsp/jstl/core"
+	xmlns:ph="http://xmlns.jcp.org/jsf/passthrough" lang="pt-br">
+
+<ui:composition template="/pg.xhtml">
+
+
+	<ui:define name="head">
+		<ui:include src="/head.xhtml" />
+	</ui:define>
+
+	<ui:define name="sidebar">
+		<ui:include src="/sidebar.xhtml" />
+	</ui:define>
+
+	<ui:define name="title">
+		Cadastro de Pessoa Física
+	</ui:define>
+
+	<ui:define name="content">
+
+
+		<div class="ui-g ui-responsive">
+			<div class="ui-md-1 ui-lg-1" />
+			<div class="ui-g-12 ui-md-10 ui-lg-10">
+
+				<!-- <o:form id="frm-pf"
+					onkeypress="if( event.keyCode == 13){event.keyCode=0;}"> -->
+				<o:form id="frm-pf">
+					<div class="card filtro">
+						<al:header-content>
+							<!-- <ui:include src="municipio-manual.xhtml" /> -->
+						</al:header-content>
+						<p:growl id="growl">
+							<p:autoUpdate />
+						</p:growl>
+
+
+
+						<!-- TOOLBAR BOTOES: SALVAR, FECHAR E NOVO -->
+						<p:panel styleClass="nopad pnl-cadastro">
+
+							<p:toolbar id="tb">
+								<f:facet name="left">
+
+									<!--  B O T A O:  N O V O  -->
+									<alcore:botao-novo id="btn-novo"
+										value="#{core['btn.novo.value']}"
+										action="#{pessoaFisicaController.novo()}" immediate="true"
+										ajax="false" process="@this" rendered="true" />
+
+									<!--  B O T A O:  R E N O V A R  -->
+									<alcore:botao-renovar id="btn-renovar"
+										action="#{pessoaFisicaController.renovar()}"
+										rendered="#{pessoaFisicaController.isEditavel()}"
+										update="@form" />
+
+									<span class="ui-separator"> <span
+										class="ui-icon ui-icon-grip-dotted-vertical" />
+									</span>
+
+									<!--  B O T A O:  F E C H A R  -->
+									<alcore:botao-fechar outcome="pg-pessoa-fisica" />
+
+
+									<!--  B O T A O:  S A L V A R  -->
+									<alcore:botao-salvar id="btnsalvar"
+										action="#{pessoaFisicaController.salvar()}"
+										validateClient="true" update="@form" process="@form" />
+
+								</f:facet>
+							</p:toolbar>
+
+							<p:spacer height="10" />
+
+							<p:panelGrid columns="1"
+								styleClass="ui-panelgrid-blank ui-fluid nopad" layout="grid">
+
+								<p:panelGrid columns="2"
+									styleClass="ui-panelgrid-blank ui-responsive nopad"
+									columnClasses="ui-grid-col-3, ui-grid-col-9" layout="grid">
+
+
+									<ui:include src="pnl-pf-foto.xhtml" />
+
+									<h:panelGroup>
+										<div class="ui-g ui-responsive">
+											<div class="ui-lg-12 nopad-bottom">
+												<h3 class="pnl-titulo">
+													<strong>Dados Pessoais</strong>
+												</h3>
+											</div>
+										</div>
+										<div class="ui-g ui-responsive ui-fluid">
+											<div class="ui-g-12 nopad-top">
+												<p:separator styleClass="pnl-titulo-sep" />
+											</div>
+										</div>
+
+
+										<!--  P A I N E L:  D A D O S  P E S S O A I S  -->
+										<p:panelGrid columns="2"
+											styleClass="ui-panelgrid-blank ui-responsive ui-fluid"
+											layout="grid" style="margin-bottom:20px !important;">
+
+											<ui:include src="pnl-cad-pf-dados-pessoais.xhtml" />
+										</p:panelGrid>
+
+
+										<div class="ui-g ui-responsive">
+											<div class="ui-lg-12 nopad-bottom">
+												<h3 class="pnl-titulo">
+													<strong>Contatos</strong>
+												</h3>
+											</div>
+										</div>
+										<div class="ui-g ui-responsive ui-fluid">
+											<div class="ui-g-12 nopad-top">
+												<p:separator styleClass="pnl-titulo-sep" />
+											</div>
+										</div>
+
+
+										<!--  P A I N E L:  C O N T A T O S  -->
+										<!-- <p:panelGrid columns="3" columnClasses="column"
+											styleClass="ui-panelgrid-blank" layout="grid"
+											style="margin-bottom:20px !important;"> -->
+										<ui:include src="../componentes/pnl-pessoa-contatos2.xhtml" />
+										<!-- </p:panelGrid> -->
+
+										<ui:include src="../componentes/pnl-pessoa-endereco.xhtml" />
+										<!-- <ui:include src="/pages/localidade/endereco/endereco.xhtml" /> -->
+									</h:panelGroup>
+
+								</p:panelGrid>
+							</p:panelGrid>
+						</p:panel>
+					</div>
+
+				</o:form>
+				<h:outputScript library="js" name="primefaces_client_validation.js" />
+				<h:outputScript library="js" name="validation_utils.js" />
+				<h:outputScript library="js" name="brasil_utils.js" />
+
+
+			</div>
+
+			<div class="ui-md-1 ui-lg-1" />
+
+		</div>
+
+		<ui:include src="/pages/commons/dlg-capturar-imagem.xhtml" />
+		<ui:include src="/pages/commons/dlg-escolher-imagem.xhtml" />
+		<ui:include src="/pages/localidade/bairro/dlg-bairro.xhtml" />
+		<ui:include src="/pages/localidade/municipio/dlg-municipio.xhtml" />
+	</ui:define>
+
+</ui:composition>
+</html>
+

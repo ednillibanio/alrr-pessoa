@@ -4,28 +4,21 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
-import javax.ejb.EJB;
 import javax.ejb.Stateless;
 import javax.inject.Named;
 
-import br.leg.rr.al.commons.domain.EnderecoType;
 import br.leg.rr.al.commons.domain.TelefoneType;
-import br.leg.rr.al.commons.ejb.BairroLocal;
-import br.leg.rr.al.commons.ejb.MunicipioLocal;
-import br.leg.rr.al.commons.jpa.Endereco;
 import br.leg.rr.al.commons.jpa.Telefone;
 import br.leg.rr.al.core.dao.BaseJPADaoStatus;
+import br.leg.rr.al.localidade.domain.EnderecoType;
+import br.leg.rr.al.localidade.jpa.Endereco;
 import br.leg.rr.al.pessoa.jpa.Pessoa;
+import br.leg.rr.al.pessoa.jpa.PessoaEndereco;
+import br.leg.rr.al.pessoa.jpa.PessoaTelefone;
 
 @Named
 @Stateless
 public class PessoaService<T extends Pessoa> extends BaseJPADaoStatus<T, Long> implements PessoaLocal<T> {
-
-	@EJB
-	private MunicipioLocal localidadeBean;
-
-	@EJB
-	private BairroLocal bairroBean;
 
 	/**
 	 * 
@@ -61,7 +54,7 @@ public class PessoaService<T extends Pessoa> extends BaseJPADaoStatus<T, Long> i
 	@Override
 	public void removerTelefone(Pessoa pessoa, TelefoneType tipo) {
 
-		Iterator<Telefone> iter = pessoa.getTelefones().iterator();
+		Iterator<PessoaTelefone> iter = pessoa.getTelefones().iterator();
 		while (iter.hasNext()) {
 			Telefone tel = iter.next();
 			if (tel.getTipo() == tipo) {
@@ -89,7 +82,7 @@ public class PessoaService<T extends Pessoa> extends BaseJPADaoStatus<T, Long> i
 	@Override
 	public void removerEndereco(Pessoa pessoa, EnderecoType tipo) {
 
-		Iterator<Endereco> iter = pessoa.getEnderecos().iterator();
+		Iterator<PessoaEndereco> iter = pessoa.getEnderecos().iterator();
 		while (iter.hasNext()) {
 			Endereco endereco = iter.next();
 			if (endereco.getTipo() == tipo) {
@@ -102,22 +95,6 @@ public class PessoaService<T extends Pessoa> extends BaseJPADaoStatus<T, Long> i
 	public Telefone getTelefoneComercial(List<Telefone> telefones) {
 		// TODO Auto-generated method stub
 		return null;
-	}
-
-	public MunicipioLocal getLocalidadeBean() {
-		return localidadeBean;
-	}
-
-	public void setLocalidadeBean(MunicipioLocal localidadeBean) {
-		this.localidadeBean = localidadeBean;
-	}
-
-	public BairroLocal getBairroBean() {
-		return bairroBean;
-	}
-
-	public void setBairroBean(BairroLocal bairroBean) {
-		this.bairroBean = bairroBean;
 	}
 
 	// FIXME ver como vai fazer para a implementação desse método ou se vai

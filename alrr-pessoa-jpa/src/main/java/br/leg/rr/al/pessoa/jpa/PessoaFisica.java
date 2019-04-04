@@ -27,6 +27,7 @@ import javax.validation.constraints.Size;
 
 import br.leg.rr.al.core.utils.DataUtils;
 import br.leg.rr.al.localidade.jpa.Municipio;
+import br.leg.rr.al.localidade.jpa.Pais;
 import br.leg.rr.al.pessoa.domain.EstadoCivilConverter;
 import br.leg.rr.al.pessoa.domain.EstadoCivilType;
 import br.leg.rr.al.pessoa.domain.SexoConverter;
@@ -39,7 +40,7 @@ import br.leg.rr.al.pessoa.validator.Cpf;
  * @author Ednil Libanio da Costa Junior
  * @date 03-04-2018
  */
-
+//FIXME Corrigir os indices que estão aqui e passar pro script sql.
 @Entity
 @Inheritance(strategy = InheritanceType.JOINED)
 @Table(name = "pessoa_fisica", indexes = { @Index(name = "pessoa_fisica_idx1", columnList = "cpf", unique = true),
@@ -54,12 +55,13 @@ public class PessoaFisica extends Pessoa {
 	private String cpf;
 
 	@Column(nullable = false, length = 250)
-	@Size(max = 250)
+	@Size(min = 3, max = 250)
 	@NotNull
 	private String nome;
 
 	@Convert(converter = SexoConverter.class)
 	@Column(name = "sexo", length = 1, nullable = false)
+	@NotNull
 	private SexoType sexo;
 
 	@Past
@@ -68,8 +70,12 @@ public class PessoaFisica extends Pessoa {
 	private Date dataNascimento;
 
 	@ManyToOne(fetch = FetchType.LAZY, optional = true)
-	@JoinColumn(name = "naturalidade_id", nullable = true, foreignKey = @ForeignKey(name = "naturalidade_fk"))
+	@JoinColumn(name = "naturalidade_id", referencedColumnName = "id", nullable = true, foreignKey = @ForeignKey(name = "naturalidade_fk"))
 	private Municipio naturalidade;
+
+	@ManyToOne(fetch = FetchType.LAZY, optional = true)
+	@JoinColumn(name = "nacionalidade_id", referencedColumnName = "id", nullable = true, foreignKey = @ForeignKey(name = "nacionalidade_fk"))
+	private Pais nacionalidade;
 
 	@Column(name = "nome_mae", nullable = true, length = 250)
 	@Size(max = 250)
@@ -213,6 +219,14 @@ public class PessoaFisica extends Pessoa {
 
 	public void setNome(String nome) {
 		this.nome = nome;
+	}
+
+	public Pais getNacionalidade() {
+		return nacionalidade;
+	}
+
+	public void setNacionalidade(Pais nacionalidade) {
+		this.nacionalidade = nacionalidade;
 	}
 
 	/*

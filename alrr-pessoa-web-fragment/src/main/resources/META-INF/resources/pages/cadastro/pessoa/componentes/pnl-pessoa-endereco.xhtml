@@ -1,173 +1,204 @@
 <?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html>
+<!--
+/****************************************************************************************
+* ALE-RR Licença																		*
+* Copyright (C) 2018, ALE-RR															*
+* Boa Vista, RR - Brasil																*
+* Todos os direitos reservados.															*
+* 																						*
+* Este programa é propriedade da Assembleia Legislativa do Estado de Roraima e 			*
+* não é permitida a distribuição, alteração ou cópia da mesma sem prévia autoriazação.	*
+*																						*
+*																						*
+*****************************************************************************************
+* Autor:  Ednil Libanio da Costa Junior													*
+* Versão: 1.0.0 																		*
+****************************************************************************************/
+-->
 <ui:composition xmlns="http://www.w3.org/1999/xhtml"
 	xmlns:f="http://xmlns.jcp.org/jsf/core"
 	xmlns:h="http://xmlns.jcp.org/jsf/html"
 	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
 	xmlns:p="http://primefaces.org/ui"
-	xmlns:al="http://xmlns.jcp.org/jsf/composite/components/commons"
+	xmlns:al="http://xmlns.jcp.org/jsf/composite/facelets/core"
+	xmlns:alcore="http://al.rr.leg.br/facelets/core"
+	xmlns:alloc="http://al.rr.leg.br/tags/localidade"
 	xmlns:o="http://omnifaces.org/ui"
 	xmlns:c="http://xmlns.jcp.org/jsp/jstl/core"
+	xmlns:shiro="http://shiro.apache.org/tags"
 	xmlns:ph="http://xmlns.jcp.org/jsf/passthrough">
 
+	<style type="text/css">
+.pnl-endereco, .pnl-municipio, .pnl-bairro, .pnl-logradouro, .pnl-cep,
+	.pnl-pais, .pnl-uf, .sem-cep {
+	
+}
+</style>
 
-	<!-- ENDEREÇO -->
-	<!-- <p:panel header="Endereço" id="pnl-endereco" styleClass="nopad"> -->
-	<p:outputPanel id="pnl-endereco">
+	<!--   P A I N E L   E N D E R E ÇO   -->
+	<p:outputPanel id="pnl-endereco" styleClass="pnl-endereco">
+
+
+		<!--   T I T U L O   D O   E N D E R E C O   -->
 		<div class="ui-g ui-responsive">
-			<div class="ui-lg-12 nopad-bottom">
+			<div class="ui-g-12 nopad-bottom">
 				<h3 class="pnl-titulo">
 					<strong>Endereço</strong>
 				</h3>
 			</div>
 		</div>
 		<div class="ui-g ui-responsive ui-fluid">
-			<div class="ui-lg-12 nopad-top">
+			<div class="ui-g-12 nopad-top">
 				<p:separator styleClass="pnl-titulo-sep" />
 			</div>
 		</div>
-		<div class="ui-g ui-responsive" style="margin-top: 15px;">
-			<div class="ui-md-4 ui-lg-3">
-				<p:selectBooleanCheckbox id="sem-cep" itemLabel="Não tem Cep"
-					value="#{pessoaController.semCep}"
-					title="Marque essa opção caso o endereço não tenha cep.">
-					<p:ajax update="pnl-endereco"
-						listener="#{pessoaController.limparCep}" process="pnl-endereco" />
-				</p:selectBooleanCheckbox>
-			</div>
-		</div>
-		<div class="ui-g ui-responsive">
 
-			<!-- CEP -->
-			<div class="ui-md-4 ui-lg-3">
 
-				<h:panelGroup>
-					<p:outputLabel value="Cep" for="cep" title="Cep" />
-					<div class="ui-g">
-						<div class="ui-g-10 ui-md-10 ui-lg-10 ui-g-nopad">
-							<p:inputMask id="cep" value="#{pessoaController.endereco.cep}"
-								mask="99999-999" converter="#{cepConverter}"
-								disabled="#{pessoaController.semCep == true}"
-								title="Informe o cep do endereço e o sistema irá buscá-lo automaticamente.">
-								<p:ajax process="@this"
-									listener="#{pessoaController.buscarEnderecoPorCep}"
-									update="pnl-endereco cep-msg" />
-							</p:inputMask>
-						</div>
-						<div class="ui-g-2 ui-md-2 ui-lg-2 ui-g-nopad">
-							<p:button id="btn-busca-cep" icon="fa fa-fw fa-map-marker"
-								styleClass="btn-g"
-								title="Abre a tela de consultar cep dos Correios."
-								update="dlg-bairro" process="@this"
-								href="http://www.buscacep.correios.com.br/sistemas/buscacep/buscaCep.cfm"
-								target="_blank" />
-						</div>
+		<p:panelGrid columns="2" columnClasses="ui-grid-col-4, ui-grid-col-8"
+			cellpadding="10" styleClass="ui-panelgrid-blank" layout="grid">
 
-					</div>
-				</h:panelGroup>
-			</div>
-		</div>
-		<div class="ui-g ui-responsive">
-			<div class="ui-md-12 ui-lg-12 nopad-top">
-				<p:message id="cep-msg" for="cep" display="text" />
-			</div>
-		</div>
-		<p:panelGrid columns="1" columnClasses="column" cellpadding="10"
-			styleClass="ui-panelgrid-blank" layout="grid">
+			<al:campo value="Cep" for="cep" title="Cep">
+				<div class="ui-inputgroup">
 
-			<!-- LOGRADOURO -->
-			<h:panelGroup id="pnl-logradouro">
-				<p:outputLabel value="Logradouro" for="logradouro" />
-				<p:inputText id="logradouro"
-					value="#{pessoaController.endereco.logradouro}" maxlength="250"
-					required="#{not empty cep}"
-					disabled="#{pessoaController.semCep != true}"
-					converter="#{capitalizeFullyConverter}" />
-			</h:panelGroup>
+					<!-- checkbox semCep -->
+					<span class="ui-inputgroup-addon-checkbox"> <p:selectBooleanCheckbox
+							id="sem-cep" value="#{enderecoController.semCep}"
+							title="Marque esta opção caso o endereço não tenha cep."
+							styleClass="sem-cep">
+							<p:ajax update="@(.pnl-endereco)"
+								listener="#{enderecoController.limparEndereco}" process="@this" />
+						</p:selectBooleanCheckbox>
+					</span>
+
+					<!--  campo cep -->
+					<p:inputMask id="cep" value="#{enderecoController.endereco.cep}"
+						mask="99999-999" converter="#{cepConverter}"
+						disabled="#{enderecoController.semCep}"
+						title="Informe o cep do endereço e o sistema irá buscá-lo automaticamente.">
+						<p:ajax process="@this"
+							listener="#{enderecoController.buscarEnderecoPorCep}"
+							update="@(.pnl-endereco)" />
+					</p:inputMask>
+					<p:button id="btn-busca-cep" icon="fa fa-fw fa-map-marker"
+						styleClass="btn-g"
+						title="Abre a tela de consultar cep dos Correios." process="@this"
+						href="http://www.buscacep.correios.com.br/sistemas/buscacep/buscaCep.cfm"
+						target="_blank" />
+				</div>
+			</al:campo>
+
+			<!--   C A M P O:  L O G R A D O U R O   -->
+			<al:campo value="Logradouro" panelGroupStyleClass="pnl-logradouro"
+				for="logradouro">
+
+				<div class="ui-inputgroup">
+					<p:inputText id="logradouro"
+						value="#{enderecoController.endereco.logradouro}" maxlength="250"
+						required="#{not empty cep}"
+						disabled="#{enderecoController.semCep != true}" />
+					<alcore:botao-capitalizar
+						actionListener="#{enderecoController.capitalizeLogradouro}"
+						update="logradouro" process="logradouro @this" />
+				</div>
+
+			</al:campo>
 		</p:panelGrid>
 
-
-		<!-- NUMERO E COMPLEMENTO -->
-		<p:panelGrid columns="2" id="pnl-complemento"
-			columnClasses="ui-grid-col-2,  ui-grid-col-10"
-			styleClass="ui-panelgrid-blank" layout="grid">
-
-
-			<!-- NUMERO -->
-			<h:panelGroup>
-				<p:outputLabel value="Número" for="numero" />
-				<p:inputText id="numero" value="#{pessoaController.endereco.numero}"
-					maxlength="6" />
-			</h:panelGroup>
-
-
-			<!-- COMPLEMENTO -->
-			<h:panelGroup>
-				<p:outputLabel value="Complemento" for="complemento" />
-				<p:inputText id="complemento"
-					value="#{pessoaController.endereco.complemento}" maxlength="100" />
-			</h:panelGroup>
-		</p:panelGrid>
 
 		<!-- BAIRRO E LOCALIDADE -->
-		<p:panelGrid columns="1" columnClasses="column" cellpadding="10"
+		<p:panelGrid columns="3" columnClasses="column" cellpadding="10"
 			styleClass="ui-panelgrid-blank" layout="grid">
 
-			<!-- BAIRRO -->
-			<h:panelGroup id="pnl-bairro">
-				<p:outputLabel value="Bairro" for="bairro" />
-				<div class="ui-g">
-					<div class="ui-g-10 ui-md-10 ui-lg-10 ui-g-nopad">
-						<p:autoComplete value="#{pessoaController.endereco.bairro}"
-							id="bairro"
-							completeMethod="#{pessoaController.completeBairroPorNome}"
-							var="bairro" itemLabel="#{bairro.nome}" itemValue="#{bairro}"
-							forceSelection="true" minQueryLength="3" maxResults="8"
-							label="Bairro" converter="#{entityConverter}"
-							disabled="#{pessoaController.semCep != true}">
-							<p:column>#{bairro.nome}, #{bairro.localidade.nome} - #{bairro.localidade.uf}</p:column>
-							<!-- AJAX QUE PREENCHE LOCALIDADE -->
-							<p:ajax event="itemSelect"
-								listener="#{pessoaController.preencherLocalidadePeloBairro}"
-								update="pnl-localidade" />
-						</p:autoComplete>
-					</div>
-					<div class="ui-g-2 ui-md-2 ui-lg-2 ui-g-nopad">
-						<p:commandButton id="btn-add-bairro" styleClass="btn-g"
+
+
+
+			<!--   C A M P O:  N  U M E R O   -->
+			<al:campo value="Número" for="numero">
+				<p:inputText id="numero"
+					value="#{enderecoController.endereco.numero}" maxlength="6" />
+			</al:campo>
+
+			<!--   C A M P O:  C O M P L E M E N T O   -->
+			<al:campo value="Complemento" for="complemento">
+				<p:inputText id="complemento"
+					value="#{enderecoController.endereco.complemento}" maxlength="100" />
+			</al:campo>
+
+
+
+			<!--   C A M P O:  B A I R R O   -->
+			<al:campo value="Bairro" panelGroupStyleClass="pnl-bairro"
+				for="bairro">
+
+				<div class="ui-inputgroup">
+
+					<!-- checkbox semBairro -->
+					<span class="ui-inputgroup-addon-checkbox"> <p:selectBooleanCheckbox
+							id="sem-bairro" value="#{enderecoController.semBairro}"
+							disabled="#{!enderecoController.semCep}"
+							title="Marque esta opção caso o endereço não tenha bairro."
+							styleClass="sem-bairro">
+							<p:ajax
+								update="@(.pnl-bairro) @(.pnl-municipio) @(.pnl-pais) @(.pnl-uf)"
+								listener="#{enderecoController.limparBairro}" process="@this" />
+						</p:selectBooleanCheckbox>
+					</span>
+
+					<!-- autocomplete-bairro-ativo -->
+					<alloc:autocomplete-bairro-ativo
+						value="#{enderecoController.endereco.bairro}" id="bairro"
+						disabled="#{!enderecoController.semCep or enderecoController.semBairro}"
+						maxResults="10" minQueryLength="2">
+
+						<!-- AJAX QUE PREENCHE MUNICIPIO-->
+						<p:ajax event="itemSelect"
+							listener="#{enderecoController.preencherEnderecoPeloBairro}"
+							update="@(.pnl-municipio) @(.pnl-uf) @(.pnl-pais)" />
+
+					</alloc:autocomplete-bairro-ativo>
+
+					<alcore:botao-novo id="btn-novo-bairro"
+						action="#{bairroController.novo()}" />
+					<!-- <p:commandButton id="btn-add-bairro" styleClass="btn-g"
 							icon="fa fa-fw fa-file-text-o" title="Novo Bairro"
 							update="dlg-bairro" process="@this"
 							action="#{bairroController.novo()}"
-							disabled="#{pessoaController.semCep != true}" />
-					</div>
+							disabled="#{enderecoController.semCep != true}" /> -->
 				</div>
-			</h:panelGroup>
 
-			<!-- LOCALIDADE -->
-			<h:panelGroup id="pnl-localidade"
-				disabled="#{pessoaController.semCep != true}">
-				<p:outputLabel value="Localidade" for="localidade" />
-				<div class="ui-grid-row">
-					<div class="ui-g-10 ui-md-10 ui-lg-10 ui-g-nopad">
-						<p:autoComplete value="#{pessoaController.endereco.localidade}"
-							id="localidade"
-							completeMethod="#{localidadeCompleteController.completeByNome}"
-							var="loc" itemLabel="#{loc.nome.concat(' - ').concat(loc.uf)}"
-							itemValue="#{loc}" converter="#{entityConverter}"
-							forceSelection="true" minQueryLength="3" maxResults="8"
-							disabled="#{pessoaController.semCep != true}">
-							<p:column>#{loc.nome} - #{loc.uf}</p:column>
-						</p:autoComplete>
-					</div>
-					<div class="ui-g-2 ui-md-2 ui-lg-2 ui-g-nopad">
-						<p:commandButton id="btn-add-localidade"
-							icon="fa fa-fw fa-file-text-o" title="Nova Localidade"
-							styleClass="btn-g" process="@this" update="dlg-localidade"
-							action="#{localidadeController.novo}"
-							disabled="#{pessoaController.semCep != true}" />
-					</div>
-				</div>
-			</h:panelGroup>
+			</al:campo>
+
+			<!--   C A M P O:  M U N I C Í P I O   -->
+			<al:campo value="Município" for="municipio"
+				panelGroupStyleClass="pnl-municipio">
+				<alloc:autocomplete-municipio-ativo
+					value="#{enderecoController.endereco.municipio}" id="municipio"
+					disabled="#{!enderecoController.semBairro}" maxResults="10"
+					minQueryLength="2">
+
+					<!-- AJAX QUE PREENCHE MUNICIPIO-->
+					<p:ajax event="itemSelect"
+						listener="#{enderecoController.preencherEnderecoPeloMunicipio}"
+						update="@(.pnl-bairro) @(.pnl-municipio) @(.pnl-uf) @(.pnl-pais)" />
+				</alloc:autocomplete-municipio-ativo>
+			</al:campo>
+
+			<!--   C A M P O:  U N I D A D E   F E D E R A T I V A   -->
+			<al:campo value="Unidade Federativa" for="uf"
+				panelGroupStyleClass="pnl-uf">
+				<p:inputText
+					value="#{enderecoController.endereco.municipio.uf.nome}" id="uf"
+					disabled="true" />
+			</al:campo>
+
+			<!--   C A M P O:  P A I S   -->
+			<al:campo value="País" for="pais" panelGroupStyleClass="pnl-pais">
+				<p:inputText
+					value="#{enderecoController.endereco.municipio.pais.nome}"
+					id="pais" disabled="true" />
+			</al:campo>
 		</p:panelGrid>
 	</p:outputPanel>
-	<!-- </p:panel> -->
 
 </ui:composition>

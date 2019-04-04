@@ -1,0 +1,118 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html>
+<!--
+/****************************************************************************************
+* ALE-RR Licença																		*
+* Copyright (C) 2018, ALE-RR															*
+* Boa Vista, RR - Brasil																*
+* Todos os direitos reservados.															*
+* 																						*
+* Este programa é propriedade da Assembleia Legislativa do Estado de Roraima e 			*
+* não é permitida a distribuição, alteração ou cópia da mesma sem prévia autoriazação.	*
+*																						*
+*																						*
+*****************************************************************************************
+* Autor:  Ednil Libanio da Costa Junior													*
+* Versão: 1.0.0 																		*
+****************************************************************************************/
+-->
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:f="http://xmlns.jcp.org/jsf/core"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:al="http://xmlns.jcp.org/jsf/composite/facelets/core"
+	xmlns:alcore="http://al.rr.leg.br/facelets/core"
+	xmlns:alloc="http://al.rr.leg.br/tags/localidade"
+	xmlns:o="http://omnifaces.org/ui"
+	xmlns:c="http://xmlns.jcp.org/jsp/jstl/core"
+	xmlns:shiro="http://shiro.apache.org/tags"
+	xmlns:ph="http://xmlns.jcp.org/jsf/passthrough">
+
+	<style type="text/css">
+.pnl-telefones {
+	
+}
+</style>
+
+	<!--   P A I N E L   E N D E R E ÇO   -->
+	<p:outputPanel id="pnl-telefones" styleClass="pnl-telefones">
+
+
+		<!--   T I T U L O   D O   E N D E R E C O   -->
+		<div class="ui-g ui-responsive">
+			<div class="ui-g-12 nopad-bottom">
+				<h3 class="pnl-titulo">
+					<strong>Telefones</strong>
+				</h3>
+			</div>
+		</div>
+		<div class="ui-g ui-responsive ui-fluid">
+			<div class="ui-g-12 nopad-top">
+				<p:separator styleClass="pnl-titulo-sep" />
+			</div>
+		</div>
+
+
+		<p:panelGrid columns="2" columnClasses="ui-grid-col-4, ui-grid-col-8"
+			cellpadding="10" styleClass="ui-panelgrid-blank" layout="grid">
+
+			<p:outputPanel id="add-telefone">
+				<p:panelGrid columns="2"
+					columnClasses="ui-grid-col-4, ui-grid-col-8" cellpadding="10"
+					styleClass="ui-panelgrid-blank" layout="grid">
+
+
+					<p:outputLabel value="Tipo" for="tipo" />
+					<p:selectOneMenu id="tipo"
+						value="#{telefoneController.telefone.tipo}">
+						<f:selectItem noSelectionOption="true" itemLabel="[Selecion]" />
+						<f:selectItems value="#{commonsEnumFactory.telefoneType}" />
+					</p:selectOneMenu>
+
+					<p:outputLabel value="Número" for="numero" />
+					<p:inputMask id="numero" value="#{telefoneController.telefone}"
+						mask="(99) 9999-9999" converter="#{telefoneConverter}"
+						title="Informe o número do telefone fixo para contato" />
+
+
+					<p:commandButton id="btn_reset" value="Reset" type="reset" />
+					<alcore:botao-adicionar update="telefones" process="add-telefone">
+						<p:collector value="#{telefoneController.telefone}"
+							addTo="#{telefoneController.telefones}" unique="true" />
+					</alcore:botao-adicionar>
+				</p:panelGrid>
+			</p:outputPanel>
+			<p:outputPanel id="telefones">
+				<p:dataTable value="#{telefoneController.telefones}" var="tel"
+					id="dt-telefones">
+
+					<p:column headerText="Tipo">
+						<h:outputText value="#{tel.tipo}" />
+					</p:column>
+
+					<p:column headerText="Ddd">
+						<h:outputText value="#{tel.ddd}" />
+					</p:column>
+
+					<p:column headerText="Número">
+						<h:outputText value="#{tel.numero}" />
+					</p:column>
+
+					<p:column headerText="Action">
+						<p:commandLink value="Remove">
+							<p:collector value="#{tel}"
+								removeFrom="#{telefoneController.telefones}" unique="true" />
+						</p:commandLink>
+					</p:column>
+
+				</p:dataTable>
+			</p:outputPanel>
+
+		</p:panelGrid>
+
+
+
+	</p:outputPanel>
+
+</ui:composition>

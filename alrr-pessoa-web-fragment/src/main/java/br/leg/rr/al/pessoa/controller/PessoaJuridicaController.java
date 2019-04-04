@@ -19,8 +19,8 @@ import javax.transaction.UserTransaction;
 import org.omnifaces.util.Faces;
 
 import br.leg.rr.al.core.CoreUtilsValidationMessages;
-import br.leg.rr.al.core.web.controller.CrudViewController;
 import br.leg.rr.al.core.web.controller.WebCamController;
+import br.leg.rr.al.core.web.controller.status.CrudViewControllerEntityStatus;
 import br.leg.rr.al.core.web.util.FacesMessageUtils;
 import br.leg.rr.al.core.web.util.ImagemHelper;
 import br.leg.rr.al.pessoa.domain.PessoaJuridicaNatureza;
@@ -29,7 +29,7 @@ import br.leg.rr.al.pessoa.jpa.PessoaJuridica;
 
 @Named
 @ViewScoped
-public class PessoaJuridicaController extends CrudViewController<PessoaJuridica, Long> {
+public class PessoaJuridicaController extends CrudViewControllerEntityStatus<PessoaJuridica, Long> {
 
 	/**
 	 * 

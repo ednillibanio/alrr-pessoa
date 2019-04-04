@@ -1,0 +1,233 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<PROCESS model-entity="JSFProcess">
+ <PROCESS-ITEM NAME="rules:*" PATH="*" SHAPE="32,17,0,0" model-entity="JSFProcessGroup">
+  <PROCESS-ITEM ID="rules:*:0" NAME="item" PATH="*" model-entity="JSFProcessItem">
+   <PROCESS-ITEM-OUTPUT
+    ID="contato-pf-pesquisar::#pages#cadastro#contato#contatos-pf-pesquisar.xhtml"
+    NAME="output"
+    PATH="/pages/cadastro/contato/contatos-pf-pesquisar.xhtml"
+    TARGET="rules:#pages#cadastro#contato#contatos-pf-pesquisar.xhtml"
+    TITLE="contato-pf-pesquisar" model-entity="JSFProcessItemOutput"/>
+   <PROCESS-ITEM-OUTPUT
+    ID="contato-pf-novo::#pages#cadastro#contato#contato-pf-novo.xhtml"
+    NAME="output1" PATH="/pages/cadastro/contato/contato-pf-novo.xhtml"
+    TARGET="rules:#pages#cadastro#contato#contato-pf-novo.xhtml"
+    TITLE="contato-pf-novo" model-entity="JSFProcessItemOutput"/>
+   <PROCESS-ITEM-OUTPUT
+    ID="novo:#{contatoPFController.novo()}:#pages#cadastro#contato#contato-pf-novo.xhtml"
+    NAME="output2" PATH="/pages/cadastro/contato/contato-pf-novo.xhtml"
+    TARGET="rules:#pages#cadastro#contato#contato-pf-novo.xhtml"
+    TITLE="#{contatoPFController.novo()}:novo" model-entity="JSFProcessItemOutput"/>
+   <PROCESS-ITEM-OUTPUT
+    ID="contatos-lista::#pages#cadastro#contato#contatos-lista.xhtml"
+    NAME="output3" PATH="/pages/cadastro/contato/contatos-lista.xhtml"
+    TARGET="rules:#pages#cadastro#contato#contatos-lista.xhtml"
+    TITLE="contatos-lista" model-entity="JSFProcessItemOutput"/>
+   <PROCESS-ITEM-OUTPUT
+    ID="pg-deputado::#pages#cadastro#deputado#pg-deputado.xhtml"
+    NAME="output4" PATH="/pages/cadastro/deputado/pg-deputado.xhtml"
+    TARGET="rules:#pages#cadastro#deputado#pg-deputado.xhtml"
+    TITLE="pg-deputado" model-entity="JSFProcessItemOutput"/>
+   <PROCESS-ITEM-OUTPUT
+    ID="contatos-pf-aniversariantes::#pages#cadastro#contato#contatos-pf-aniversariantes.xhtml"
+    NAME="output5"
+    PATH="/pages/cadastro/contato/contatos-pf-aniversariantes.xhtml"
+    TARGET="rules:#pages#cadastro#contato#contatos-pf-aniversariantes.xhtml"
+    TITLE="contatos-pf-aniversariantes" model-entity="JSFProcessItemOutput"/>
+   <PROCESS-ITEM-OUTPUT
+    ID="cad-pessoa-fisica::#pages#cadastro#pessoa#fisica#cad-pessoa-fisica.xhtml"
+    NAME="output6"
+    PATH="/pages/cadastro/pessoa/fisica/cad-pessoa-fisica.xhtml"
+    TARGET="rules:#pages#cadastro#pessoa#fisica#cad-pessoa-fisica.xhtml"
+    TITLE="cad-pessoa-fisica" model-entity="JSFProcessItemOutput"/>
+   <PROCESS-ITEM-OUTPUT
+    ID="cad-pessoa-juridica::#pages#cadastro#pessoa#juridica#cad-pessoa-juridica.xhtml"
+    NAME="output7"
+    PATH="/pages/cadastro/pessoa/juridica/cad-pessoa-juridica.xhtml"
+    TARGET="rules:#pages#cadastro#pessoa#juridica#cad-pessoa-juridica.xhtml"
+    TITLE="cad-pessoa-juridica" model-entity="JSFProcessItemOutput"/>
+   <PROCESS-ITEM-OUTPUT
+    ID="pg-pessoa-juridica::#pages#cadastro#pessoa#juridica#pg-pessoa-juridica.xhtml"
+    NAME="output8"
+    PATH="/pages/cadastro/pessoa/juridica/pg-pessoa-juridica.xhtml"
+    TARGET="rules:#pages#cadastro#pessoa#juridica#pg-pessoa-juridica.xhtml"
+    TITLE="pg-pessoa-juridica" model-entity="JSFProcessItemOutput"/>
+   <PROCESS-ITEM-OUTPUT
+    ID="pg-pessoa-fisica::#pages#cadastro#pessoa#fisica#pg-pessoa-fisica.xhtml"
+    NAME="output9"
+    PATH="/pages/cadastro/pessoa/fisica/pg-pessoa-fisica.xhtml"
+    TARGET="rules:#pages#cadastro#pessoa#fisica#pg-pessoa-fisica.xhtml"
+    TITLE="pg-pessoa-fisica" model-entity="JSFProcessItemOutput"/>
+   <PROCESS-ITEM-OUTPUT
+    ID="pg-servidor-publico::#pages#cadastro#servidor#pg-servidor-publico.xhtml"
+    NAME="output10"
+    PATH="/pages/cadastro/servidor/pg-servidor-publico.xhtml"
+    TARGET="rules:#pages#cadastro#servidor#pg-servidor-publico.xhtml"
+    TITLE="pg-servidor-publico" model-entity="JSFProcessItemOutput"/>
+   <PROCESS-ITEM-OUTPUT
+    ID="cad-servidor-publico::#pages#cadastro#servidor#cad-servidor-publico.xhtml"
+    NAME="output11"
+    PATH="/pages/cadastro/servidor/cad-servidor-publico.xhtml"
+    TARGET="rules:#pages#cadastro#servidor#cad-servidor-publico.xhtml"
+    TITLE="cad-servidor-publico" model-entity="JSFProcessItemOutput"/>
+  </PROCESS-ITEM>
+ </PROCESS-ITEM>
+ <PROCESS-ITEM
+  NAME="rules:#pages#cadastro#contato#contato-pf-novo.xhtml"
+  PATH="/pages/cadastro/contato/contato-pf-novo.xhtml"
+  SHAPE="560,17,0,0" model-entity="JSFProcessGroup">
+  <PROCESS-ITEM
+   ID="rules:#pages#cadastro#contato#contato-pf-novo.xhtml:0"
+   NAME="item" PATH="/pages/cadastro/contato/contato-pf-novo.xhtml" model-entity="JSFProcessItem">
+   <PROCESS-ITEM-OUTPUT
+    ID="novo::#pages#cadastro#contato#contato-pj-novo.xhtml"
+    NAME="output" PATH="/pages/cadastro/contato/contato-pj-novo.xhtml"
+    TARGET="rules:#pages#cadastro#contato#contato-pj-novo.xhtml"
+    TITLE="novo" model-entity="JSFProcessItemOutput"/>
+   <PROCESS-ITEM-OUTPUT
+    ID="falha::#pages#cadastro#contato#contato-pf-novo.xhtml"
+    NAME="output1" PATH="/pages/cadastro/contato/contato-pf-novo.xhtml"
+    TARGET="rules:#pages#cadastro#contato#contato-pf-novo.xhtml"
+    TITLE="falha" model-entity="JSFProcessItemOutput"/>
+  </PROCESS-ITEM>
+ </PROCESS-ITEM>
+ <PROCESS-ITEM
+  NAME="rules:#pages#cadastro#contato#contatos-pf-pesquisar.xhtml"
+  PATH="/pages/cadastro/contato/contatos-pf-pesquisar.xhtml"
+  SHAPE="304,33,0,0" model-entity="JSFProcessGroup">
+  <PROCESS-ITEM
+   ID="rules:#pages#cadastro#contato#contatos-pf-pesquisar.xhtml:0"
+   NAME="item"
+   PATH="/pages/cadastro/contato/contatos-pf-pesquisar.xhtml" model-entity="JSFProcessItem">
+   <PROCESS-ITEM-OUTPUT
+    ID="editar::#pages#cadastro#contato#contato-pf-novo.xhtml"
+    NAME="output" PATH="/pages/cadastro/contato/contato-pf-novo.xhtml"
+    TARGET="rules:#pages#cadastro#contato#contato-pf-novo.xhtml"
+    TITLE="editar" model-entity="JSFProcessItemOutput"/>
+   <PROCESS-ITEM-OUTPUT
+    ID="contatos-pj-pesquisar::#pages#cadastro#contato#contatos-pj-pesquisar.xhtml"
+    NAME="output1"
+    PATH="/pages/cadastro/contato/contatos-pj-pesquisar.xhtml"
+    TARGET="rules:#pages#cadastro#contato#contatos-pj-pesquisar.xhtml"
+    TITLE="contatos-pj-pesquisar" model-entity="JSFProcessItemOutput"/>
+  </PROCESS-ITEM>
+ </PROCESS-ITEM>
+ <PROCESS-ITEM
+  NAME="rules:#pages#cadastro#contato#contatos-pj-pesquisar.xhtml"
+  PATH="/pages/cadastro/contato/contatos-pj-pesquisar.xhtml"
+  SHAPE="32,481,0,0" model-entity="JSFProcessGroup">
+  <PROCESS-ITEM
+   ID="rules:#pages#cadastro#contato#contatos-pj-pesquisar.xhtml:0"
+   NAME="item"
+   PATH="/pages/cadastro/contato/contatos-pj-pesquisar.xhtml" model-entity="JSFProcessItem">
+   <PROCESS-ITEM-OUTPUT
+    ID="contatos-pf-pesquisar::#pages#cadastro#contato#contatos-pf-pesquisar.xhtml"
+    NAME="output"
+    PATH="/pages/cadastro/contato/contatos-pf-pesquisar.xhtml"
+    TARGET="rules:#pages#cadastro#contato#contatos-pf-pesquisar.xhtml"
+    TITLE="contatos-pf-pesquisar" model-entity="JSFProcessItemOutput"/>
+  </PROCESS-ITEM>
+ </PROCESS-ITEM>
+ <PROCESS-ITEM
+  NAME="rules:#pages#cadastro#servidor#pg-servidor-publico.xhtml"
+  PATH="/pages/cadastro/servidor/pg-servidor-publico.xhtml"
+  SHAPE="304,1057,0,0" model-entity="JSFProcessGroup">
+  <PROCESS-ITEM
+   ID="rules:#pages#cadastro#servidor#pg-servidor-publico.xhtml:0"
+   NAME="item" PATH="/pages/cadastro/servidor/pg-servidor-publico.xhtml" model-entity="JSFProcessItem">
+   <PROCESS-ITEM-OUTPUT
+    ID="novo::#pages#cadastro#servidor#cad-servidor-publico.xhtml"
+    NAME="output"
+    PATH="/pages/cadastro/servidor/cad-servidor-publico.xhtml"
+    TARGET="rules:#pages#cadastro#servidor#cad-servidor-publico.xhtml"
+    TITLE="novo" model-entity="JSFProcessItemOutput"/>
+   <PROCESS-ITEM-OUTPUT
+    ID="editar::#pages#cadastro#servidor#cad-servidor-publico.xhtml"
+    NAME="output1"
+    PATH="/pages/cadastro/servidor/cad-servidor-publico.xhtml"
+    TARGET="rules:#pages#cadastro#servidor#cad-servidor-publico.xhtml"
+    TITLE="editar" model-entity="JSFProcessItemOutput"/>
+  </PROCESS-ITEM>
+ </PROCESS-ITEM>
+ <PROCESS-ITEM NAME="rules:#pages#cadastro#deputado#pg-deputado.xhtml"
+  PATH="/pages/cadastro/deputado/pg-deputado.xhtml" SHAPE="304,609,0,0" model-entity="JSFProcessGroup"/>
+ <PROCESS-ITEM
+  NAME="rules:#pages#cadastro#contato#contato-pj-novo.xhtml"
+  PATH="/pages/cadastro/contato/contato-pj-novo.xhtml"
+  SHAPE="784,33,0,0" model-entity="JSFProcessGroup"/>
+ <PROCESS-ITEM NAME="rules:#pages#cadastro#contato#contatos-lista.xhtml"
+  PATH="/pages/cadastro/contato/contatos-lista.xhtml"
+  SHAPE="304,497,0,0" model-entity="JSFProcessGroup"/>
+ <PROCESS-ITEM
+  NAME="rules:#pages#cadastro#contato#contatos-pf-aniversariantes.xhtml"
+  PATH="/pages/cadastro/contato/contatos-pf-aniversariantes.xhtml"
+  SHAPE="304,721,0,0" model-entity="JSFProcessGroup"/>
+ <PROCESS-ITEM
+  NAME="rules:#pages#cadastro#servidor#cad-servidor-publico.xhtml"
+  PATH="/pages/cadastro/servidor/cad-servidor-publico.xhtml"
+  SHAPE="560,1041,0,0" model-entity="JSFProcessGroup"/>
+ <PROCESS-ITEM
+  NAME="rules:#pages#cadastro#pessoa#juridica#pg-pessoa-juridica.xhtml"
+  PATH="/pages/cadastro/pessoa/juridica/pg-pessoa-juridica.xhtml"
+  SHAPE="32,593,0,0" model-entity="JSFProcessGroup">
+  <PROCESS-ITEM
+   ID="rules:#pages#cadastro#pessoa#juridica#pg-pessoa-juridica.xhtml:0"
+   NAME="item"
+   PATH="/pages/cadastro/pessoa/juridica/pg-pessoa-juridica.xhtml" model-entity="JSFProcessItem">
+   <PROCESS-ITEM-OUTPUT
+    ID="editar::#pages#cadastro#pessoa#juridica#cad-pessoa-juridica.xhtml"
+    NAME="output"
+    PATH="/pages/cadastro/pessoa/juridica/cad-pessoa-juridica.xhtml"
+    TARGET="rules:#pages#cadastro#pessoa#juridica#cad-pessoa-juridica.xhtml"
+    TITLE="editar" model-entity="JSFProcessItemOutput"/>
+  </PROCESS-ITEM>
+ </PROCESS-ITEM>
+ <PROCESS-ITEM
+  NAME="rules:#pages#cadastro#pessoa#fisica#pg-pessoa-fisica.xhtml"
+  PATH="/pages/cadastro/pessoa/fisica/pg-pessoa-fisica.xhtml"
+  SHAPE="32,481,0,0" model-entity="JSFProcessGroup">
+  <PROCESS-ITEM
+   ID="rules:#pages#cadastro#pessoa#fisica#pg-pessoa-fisica.xhtml:0"
+   NAME="item"
+   PATH="/pages/cadastro/pessoa/fisica/pg-pessoa-fisica.xhtml" model-entity="JSFProcessItem">
+   <PROCESS-ITEM-OUTPUT
+    ID="editar::#pages#cadastro#pessoa#fisica#cad-pessoa-fisica.xhtml"
+    NAME="output"
+    PATH="/pages/cadastro/pessoa/fisica/cad-pessoa-fisica.xhtml"
+    TARGET="rules:#pages#cadastro#pessoa#fisica#cad-pessoa-fisica.xhtml"
+    TITLE="editar" model-entity="JSFProcessItemOutput"/>
+  </PROCESS-ITEM>
+ </PROCESS-ITEM>
+ <PROCESS-ITEM
+  NAME="rules:#pages#cadastro#pessoa#fisica#cad-pessoa-fisica.xhtml"
+  PATH="/pages/cadastro/pessoa/fisica/cad-pessoa-fisica.xhtml"
+  SHAPE="304,497,0,0" model-entity="JSFProcessGroup">
+  <PROCESS-ITEM
+   ID="rules:#pages#cadastro#pessoa#fisica#cad-pessoa-fisica.xhtml:0"
+   NAME="item"
+   PATH="/pages/cadastro/pessoa/fisica/cad-pessoa-fisica.xhtml" model-entity="JSFProcessItem">
+   <PROCESS-ITEM-OUTPUT
+    ID="novo::#pages#cadastro#pessoa#fisica#cad-pessoa-fisica.xhtml"
+    NAME="output"
+    PATH="/pages/cadastro/pessoa/fisica/cad-pessoa-fisica.xhtml"
+    TARGET="rules:#pages#cadastro#pessoa#fisica#cad-pessoa-fisica.xhtml"
+    TITLE="novo" model-entity="JSFProcessItemOutput"/>
+  </PROCESS-ITEM>
+ </PROCESS-ITEM>
+ <PROCESS-ITEM
+  NAME="rules:#pages#cadastro#pessoa#juridica#cad-pessoa-juridica.xhtml"
+  PATH="/pages/cadastro/pessoa/juridica/cad-pessoa-juridica.xhtml"
+  SHAPE="304,609,0,0" model-entity="JSFProcessGroup">
+  <PROCESS-ITEM
+   ID="rules:#pages#cadastro#pessoa#juridica#cad-pessoa-juridica.xhtml:0"
+   NAME="item"
+   PATH="/pages/cadastro/pessoa/juridica/cad-pessoa-juridica.xhtml" model-entity="JSFProcessItem">
+   <PROCESS-ITEM-OUTPUT
+    ID="novo::#pages#cadastro#pessoa#juridica#cad-pessoa-juridica.xhtml"
+    NAME="output"
+    PATH="/pages/cadastro/pessoa/juridica/cad-pessoa-juridica.xhtml"
+    TARGET="rules:#pages#cadastro#pessoa#juridica#cad-pessoa-juridica.xhtml"
+    TITLE="novo" model-entity="JSFProcessItemOutput"/>
+  </PROCESS-ITEM>
+ </PROCESS-ITEM>
+</PROCESS>

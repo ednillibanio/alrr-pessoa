@@ -69,5 +69,10 @@
 			<artifactId>alrr-pessoa-web</artifactId>
 			<type>war</type>
 		</dependency>
+		<dependency>
+			<groupId>br.leg.rr.al.commons</groupId>
+			<artifactId>alrr-commons-ejb</artifactId>
+			<type>ejb</type>
+		</dependency>
 	</dependencies>
 </project>

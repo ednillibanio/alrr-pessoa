@@ -9,11 +9,11 @@ import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
+import javax.persistence.ForeignKey;
 import javax.persistence.Inheritance;
 import javax.persistence.InheritanceType;
 import javax.persistence.JoinColumn;
 import javax.persistence.Lob;
-import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
@@ -26,7 +26,6 @@ import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.Type;
 
 import br.leg.rr.al.commons.domain.TelefoneType;
-import br.leg.rr.al.commons.jpa.Endereco;
 import br.leg.rr.al.commons.jpa.Telefone;
 import br.leg.rr.al.core.jpa.BaseEntityStatus;
 import br.leg.rr.al.core.util.validator.Email;
@@ -46,25 +45,19 @@ public abstract class Pessoa extends BaseEntityStatus<Long> {
 
 	@Valid
 	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, orphanRemoval = true)
-	@JoinColumn(name = "pessoa_id", referencedColumnName = "id", nullable = false)
-	private Set<Endereco> enderecos = new HashSet<Endereco>();
+	@JoinColumn(name = "pessoa_id", referencedColumnName = "id", nullable = true, foreignKey = @ForeignKey(name = "pessoa_fk"))
+	private Set<PessoaEndereco> enderecos = new HashSet<PessoaEndereco>();
 
 	@Valid
 	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, orphanRemoval = true)
-	@JoinColumn(name = "pessoa_id", referencedColumnName = "id", nullable = false)
-	private Set<Telefone> telefones = new HashSet<Telefone>();
+	@JoinColumn(name = "pessoa_id", referencedColumnName = "id", nullable = true, foreignKey = @ForeignKey(name = "pessoa_fk"))
+	private Set<PessoaTelefone> telefones = new HashSet<PessoaTelefone>();
 
 	// ****************************************************************************
-	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "contatoProprietario")
-	private Set<Pessoa> contatos = new HashSet<Pessoa>();
-
-	/**
-	 * Toda vez que definir um contato, é necessário informar esse campo com o dono
-	 * do contato, ou seja, de quem pertence o contato.
-	 */
-	@ManyToOne(fetch = FetchType.LAZY, optional = true)
-	@JoinColumn(name = "contato_proprietario_id", referencedColumnName = "id")
-	private Pessoa contatoProprietario;
+	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "proprietario", orphanRemoval = true)
+	// @JoinColumn(name = "pessoa_id", referencedColumnName = "id", nullable = true,
+	// foreignKey = @ForeignKey(name = "pessoa_fk"))
+	private Set<PessoaContato> contatos = new HashSet<PessoaContato>();
 
 	// ****************************************************************************
 
@@ -86,19 +79,19 @@ public abstract class Pessoa extends BaseEntityStatus<Long> {
 	@Type(type = "org.hibernate.type.BinaryType")
 	private byte[] imagem;
 
-	public Set<Endereco> getEnderecos() {
+	public Set<PessoaEndereco> getEnderecos() {
 		return enderecos;
 	}
 
-	public void setEnderecos(Set<Endereco> pessoaEnderecos) {
+	public void setEnderecos(Set<PessoaEndereco> pessoaEnderecos) {
 		this.enderecos = pessoaEnderecos;
 	}
 
-	public Set<Telefone> getTelefones() {
+	public Set<PessoaTelefone> getTelefones() {
 		return telefones;
 	}
 
-	public void setTelefones(Set<Telefone> telefones) {
+	public void setTelefones(Set<PessoaTelefone> telefones) {
 		this.telefones = telefones;
 	}
 
@@ -170,27 +163,12 @@ public abstract class Pessoa extends BaseEntityStatus<Long> {
 		this.imagem = imagem;
 	}
 
-	// TODO foi removido pra não ficar dependente da classe StreamContent
-	/*
-	 * @Transient public StreamedContent getImagemStreamed() { if (getImagem() !=
-	 * null) { return new DefaultStreamedContent(new
-	 * ByteArrayInputStream(getImagem()), "image/jpeg"); } return null; }
-	 */
-
-	public Set<Pessoa> getContatos() {
+	public Set<PessoaContato> getContatos() {
 		return contatos;
 	}
 
-	public void setContatos(Set<Pessoa> contatos) {
-		this.contatos = contatos;
-	}
-
-	public Pessoa getContatoProprietario() {
-		return contatoProprietario;
-	}
-
-	public void setContatoProprietario(Pessoa contatoProprietario) {
-		this.contatoProprietario = contatoProprietario;
+	public void setContatos(Set<PessoaContato> pessoaContatos) {
+		this.contatos = pessoaContatos;
 	}
 
 }

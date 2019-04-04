@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html>
+<!--
+/****************************************************************************************
+* ALE-RR Licença																		*
+* Copyright (C) 2018, ALE-RR															*
+* Boa Vista, RR - Brasil																*
+* Todos os direitos reservados.															*
+* 																						*
+* Este programa é propriedade da Assembleia Legislativa do Estado de Roraima e 			*
+* não é permitida a distribuição, alteração ou cópia da mesma sem prévia autoriazação.	*
+*																						*
+*																						*
+*****************************************************************************************
+* Autor:  Ednil Libanio da Costa Junior													*
+* Versão: 1.0.0 																		*
+****************************************************************************************/
+-->
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:f="http://xmlns.jcp.org/jsf/core"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+	xmlns:c="http://xmlns.jcp.org/jsp/jstl/core"
+	xmlns:al="http://xmlns.jcp.org/jsf/composite/facelets/core"
+	xmlns:alpes="http://xmlns.jcp.org/jsf/composite/facelets/pessoa"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:alcore="http://al.rr.leg.br/facelets/core"
+	xmlns:alloc="http://al.rr.leg.br/tags/localidade"
+	xmlns:alcommons="http://al.rr.leg.br/facelets/commons"
+	xmlns:o="http://omnifaces.org/ui"
+	xmlns:ph="http://xmlns.jcp.org/jsf/passthrough">
+
+
+	<!--  C A M P O:  N O M E  -->
+	<al:campo value="Nome" for="nome">
+		<div class="ui-inputgroup">
+			<p:inputText id="nome" title="Informe o nome da pessoa."
+				value="#{pessoaFisicaController.entity.nome}" required="true">
+				<f:validateLength minimum="3" maximum="250" for="nome-municipio" />
+			</p:inputText>
+			<alcore:botao-capitalizar
+				actionListener="#{pessoaFisicaController.capitalizeNome()}"
+				update="nome" process="nome @this" />
+		</div>
+	</al:campo>
+
+
+	<!--  C A M P O:  S E X O  -->
+	<al:campo value="Sexo" for="sexo">
+		<alpes:selectSexoOneButton id="sexo"
+			value="#{pessoaFisicaController.entity.sexo}" />
+	</al:campo>
+
+
+	<!--  C A M P O:  E S T A D O   C I V I L  -->
+	<al:campo value="Estado Civil" for="estado-civil">
+		<alpes:selectEstadoCivilOneMenu
+			value="#{pessoaFisicaController.entity.estadoCivil}"
+			id="estado-civil" />
+	</al:campo>
+
+
+	<!--  C A M P O:  D A T A   N A S C I M E N T O  -->
+	<al:campo value="Data Nascimento" for="data-nascimento">
+		<p:inputMask id="data-nascimento"
+			value="#{pessoaFisicaController.entity.dataNascimento}"
+			mask="99/99/9999"
+			label="#{bundle['pessoa.fisica.label.data.nascimento']}"
+			maxlength="12">
+			<f:convertDateTime pattern="dd/MM/yyyy" type="date" />
+		</p:inputMask>
+	</al:campo>
+
+
+	<!--  C A M P O:  N A C I O N A L I D A D E  -->
+	<al:campo value="Nacionalidade" for="nacionalidade">
+		<alloc:autocomplete-nacionalidade id="nacionalidade"
+			value="#{pessoaFisicaController.entity.nacionalidade}"
+			forceSelection="true" maxResults="8" minQueryLength="3" />
+		<!-- <alloc:autocomplete-pais-ativo id="nacionalidade"
+			value="#{pessoaFisicaController.entity.nacionalidade}"
+			forceSelection="true" maxResults="8" minQueryLength="3" /> -->
+	</al:campo>
+
+	<!--  C A M P O:  N A T U R A L I D A D E  -->
+	<al:campo value="Naturalidade" for="naturalidade">
+		<alloc:autocomplete-municipio-ativo id="naturalidade"
+			value="#{pessoaFisicaController.entity.naturalidade}"
+			forceSelection="true" maxResults="8" minQueryLength="3" />
+	</al:campo>
+
+
+
+</ui:composition>

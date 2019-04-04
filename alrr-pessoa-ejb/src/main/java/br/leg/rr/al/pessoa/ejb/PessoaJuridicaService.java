@@ -37,7 +37,7 @@ public class PessoaJuridicaService extends PessoaService<PessoaJuridica> impleme
 
 	@Override
 	public PessoaJuridica buscarPorCnpj(String cnpj) throws BeanException {
-		return buscarEntidade("PessoaJuridica.findByCnpj", "cnpj", cnpj);
+		return null;// buscarEntidade("PessoaJuridica.findByCnpj", "cnpj", cnpj);
 	}
 
 	@Override
@@ -51,11 +51,11 @@ public class PessoaJuridicaService extends PessoaService<PessoaJuridica> impleme
 	 * nome do contato.Por exemplo, busca todas as pessoas que começam com a letra
 	 * <code>'B'</code>.
 	 * 
-	 * @param params
-	 *            <br/>
-	 *            param "nome" -> String da primeira letra do nome do contato.<br/>
-	 *            param "contato_proprietario -> entidade Pessoa selecionada para
-	 *            buscar os seus contatos.
+	 * @param params <br/>
+	 *               param "nome" -> String da primeira letra do nome do
+	 *               contato.<br/>
+	 *               param "contato_proprietario -> entidade Pessoa selecionada para
+	 *               buscar os seus contatos.
 	 * @return lista de contatos encontrados que começam com a letra informada no
 	 *         parametro <code>param</code>.
 	 */
@@ -80,13 +80,12 @@ public class PessoaJuridicaService extends PessoaService<PessoaJuridica> impleme
 			}
 		}
 
-		if (params.containsKey("contato_proprietario")) {
-			proprietario = (Pessoa) params.get("contato_proprietario");
-			if (proprietario != null) {
-				Predicate cond = cb.equal(root.get(Pessoa_.contatoProprietario), proprietario);
-				predicates.add(cond);
-			}
-		}
+		/*
+		 * if (params.containsKey("contato_proprietario")) { proprietario = (Pessoa)
+		 * params.get("contato_proprietario"); if (proprietario != null) { Predicate
+		 * cond = cb.equal(root.get(Pessoa_.contatoProprietario), proprietario);
+		 * predicates.add(cond); } }
+		 */
 
 		cq.where(cb.and(predicates.toArray(new Predicate[] {})));
 
@@ -148,11 +147,12 @@ public class PessoaJuridicaService extends PessoaService<PessoaJuridica> impleme
 			}
 
 			// FILTRO: ID DO PROPRIETARIO CASO SEJA PARA CONTATO A CONSULTA.
-			if (params.containsKey("contato_proprietario_id")) {
-				contatoProprietarioId = (Long) params.get("contato_proprietario_id");
-				Predicate cond = cb.equal(root.get(Pessoa_.contatoProprietario), contatoProprietarioId);
-				predicates.add(cond);
-			}
+			/*
+			 * if (params.containsKey("contato_proprietario_id")) { contatoProprietarioId =
+			 * (Long) params.get("contato_proprietario_id"); Predicate cond =
+			 * cb.equal(root.get(Pessoa_.contatoProprietario), contatoProprietarioId);
+			 * predicates.add(cond); }
+			 */
 
 			cq.where(cb.and(predicates.toArray(new Predicate[] {})));
 			return getEntityManager().createQuery(cq).getResultList();
@@ -165,8 +165,7 @@ public class PessoaJuridicaService extends PessoaService<PessoaJuridica> impleme
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see
-	 * br.leg.rr.al.pessoa.ejb.PessoaService#jaExiste(br.leg.rr.al.pessoa.
+	 * @see br.leg.rr.al.pessoa.ejb.PessoaService#jaExiste(br.leg.rr.al.pessoa.
 	 * entity.Pessoa)
 	 */
 	@Override

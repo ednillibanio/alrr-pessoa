@@ -1,12 +1,31 @@
 <?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html>
+<!--
+/****************************************************************************************
+* ALE-RR Licença																		*
+* Copyright (C) 2018, ALE-RR															*
+* Boa Vista, RR - Brasil																*
+* Todos os direitos reservados.															*
+* 																						*
+* Este programa é propriedade da Assembleia Legislativa do Estado de Roraima e 			*
+* não é permitida a distribuição, alteração ou cópia da mesma sem prévia autoriazação.	*
+*																						*
+*																						*
+*****************************************************************************************
+* Autor:  Ednil Libanio da Costa Junior													*
+* Versão: 1.0.0 																		*
+****************************************************************************************/
+-->
 <ui:composition xmlns="http://www.w3.org/1999/xhtml"
 	xmlns:f="http://xmlns.jcp.org/jsf/core"
 	xmlns:h="http://xmlns.jcp.org/jsf/html"
 	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
 	xmlns:p="http://primefaces.org/ui"
-	xmlns:al="http://xmlns.jcp.org/jsf/composite/components/commons"
+	xmlns:al="http://xmlns.jcp.org/jsf/composite/facelets/core"
+	xmlns:alcore="http://al.rr.leg.br/facelets/core"
 	xmlns:o="http://omnifaces.org/ui"
 	xmlns:c="http://xmlns.jcp.org/jsp/jstl/core"
+	xmlns:shiro="http://shiro.apache.org/tags"
 	xmlns:ph="http://xmlns.jcp.org/jsf/passthrough">
 
 	<!--  *******************************-->
@@ -15,44 +34,36 @@
 
 
 	<!--  C A M P O:  T E L E F O N E  F I X O  -->
-	<h:panelGroup>
-		<h:outputLabel value="Telefone Fixo" for="tel-fixo" />
+	<al:campo value="Telefone Fixo" for="tel-fixo">
 		<p:inputMask id="tel-fixo" value="#{pessoaController.telefoneFixo}"
 			mask="(99) 9999-9999" converter="#{telefoneConverter}"
 			title="Informe o número do telefone fixo para contato" />
-		<p:message for="tel-fixo" display="tooltip" />
-	</h:panelGroup>
+	</al:campo>
 
 
 	<!--  C A M P O:  C E L U L A R  -->
-	<h:panelGroup>
-		<h:outputLabel value="Celular" for="celular" />
+	<al:campo value="Celular" for="celular">
 		<p:inputMask id="celular" value="#{pessoaController.celular}"
 			mask="?(99) 99999-9999" label="Celular"
 			title="Informe o número do celular para contato"
 			converter="#{telefoneConverter}" />
-		<p:message for="celular" display="tooltip" />
-	</h:panelGroup>
+	</al:campo>
 
 
 	<!--  C A M P O:  F A X  -->
-	<h:panelGroup>
-		<h:outputLabel value="Fax" for="fax" />
+	<al:campo value="Fax" for="fax">
 		<p:inputMask id="fax" value="#{pessoaController.fax}"
 			mask="(99) 9999-9999" converter="#{telefoneConverter}"
 			title="Informe o número do fax" />
-		<p:message for="fax" display="tooltip" />
-	</h:panelGroup>
+	</al:campo>
 
 
 
 	<!--  C A M P O:  E M A I L  -->
-
-	<h:panelGroup>
-		<h:outputLabel value="Email" for="email" />
+	<al:campo value="Email" for="email">
 		<p:inputText id="email" title="Informe o email para contato"
 			type="email" value="#{pessoaController.email}" maxlength="250" />
 		<p:message for="email" display="tooltip" />
-	</h:panelGroup>
+	</al:campo>
 
 </ui:composition>

@@ -9,11 +9,11 @@ import java.util.Map;
 
 import javax.ejb.Local;
 
-import br.leg.rr.al.commons.domain.EnderecoType;
 import br.leg.rr.al.commons.domain.TelefoneType;
-import br.leg.rr.al.commons.jpa.Endereco;
 import br.leg.rr.al.commons.jpa.Telefone;
 import br.leg.rr.al.core.dao.JPADaoStatus;
+import br.leg.rr.al.localidade.domain.EnderecoType;
+import br.leg.rr.al.localidade.jpa.Endereco;
 import br.leg.rr.al.pessoa.jpa.Pessoa;
 
 @Local

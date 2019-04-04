@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:f="http://xmlns.jcp.org/jsf/core"
+	xmlns:cc="http://xmlns.jcp.org/jsf/composite"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:c="http://xmlns.jcp.org/jsf/core"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+	xmlns:o="http://omnifaces.org/ui"
+	xmlns:ph="http://xmlns.jcp.org/jsf/passthrough" lang="pt-br">
+
+<cc:interface displayName="select-situacao"
+	shortDescription="Componente do tipo selectOneButton que escolhe o sexo da pessoa. O tipo do campo é SexoType."
+	name="select-situacao">
+
+	<cc:attribute name="id" displayName="id"
+		shortDescription="Preenche o campo id do componente." />
+
+	<cc:attribute name="value" displayName="value"
+		shortDescription="Preenche o campo value do componente." />
+
+	<cc:attribute name="required" displayName="required"
+		shortDescription="Informa se o campo é required." />
+
+</cc:interface>
+
+
+<cc:implementation>
+	<o:importConstants type="br.leg.rr.al.pessoa.domain.SexoType" />
+	<p:selectOneButton id="#{cc.attrs.id}" value="#{cc.attrs.value}"
+		required="#{cc.attrs.required}"
+		converter="omnifaces.GenericEnumConverter">
+		<f:selectItems value="#{pessoaEnumFactory.sexos}" var="sexo"
+			itemValue="#{sexo}" itemLabel="#{sexo.sigla}" />
+	</p:selectOneButton>
+
+</cc:implementation>
+</html>

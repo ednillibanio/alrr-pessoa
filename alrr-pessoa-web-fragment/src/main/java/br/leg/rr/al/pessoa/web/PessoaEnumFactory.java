@@ -23,7 +23,7 @@ import br.leg.rr.al.pessoa.domain.SexoType;
  */
 @ApplicationScoped
 @Named
-public class CadastroEnumFactory {
+public class PessoaEnumFactory {
 
 	public SexoType[] getSexos() {
 		return SexoType.values();

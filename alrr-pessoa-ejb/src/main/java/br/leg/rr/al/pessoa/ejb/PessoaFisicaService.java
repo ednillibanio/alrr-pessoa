@@ -176,13 +176,12 @@ public class PessoaFisicaService<T extends PessoaFisica> extends PessoaService<T
 			}
 		}
 
-		if (params.containsKey("contato_proprietario")) {
-			proprietario = (Pessoa) params.get("contato_proprietario");
-			if (proprietario != null) {
-				Predicate cond = cb.equal(root.get(Pessoa_.contatoProprietario), proprietario);
-				predicates.add(cond);
-			}
-		}
+		/*
+		 * if (params.containsKey("contato_proprietario")) { proprietario = (Pessoa)
+		 * params.get("contato_proprietario"); if (proprietario != null) { Predicate
+		 * cond = cb.equal(root.get(Pessoa_.contatoProprietario), proprietario);
+		 * predicates.add(cond); } }
+		 */
 
 		cq.where(cb.and(predicates.toArray(new Predicate[] {})));
 

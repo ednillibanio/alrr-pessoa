@@ -9,12 +9,18 @@
 		<artifactId>alrr-pessoa</artifactId>
 		<version>1.0.0-SNAPSHOT</version>
 	</parent>
+	<organization>
+		<name>Assembleia Legislativa de Roraima</name>
+		<url>https://www.al.rr.leg.br</url>
+	</organization>
 	<developers>
 		<developer>
+			<id>ednil</id>
 			<name>Ednil Libanio da Costa Junior</name>
 			<email>ednil.libanio@gmail.com</email>
-			<organization>Assembleia Legislativa de Roraima</organization>
-			<url>www.al.rr.leg.br</url>
+			<roles>
+				<role>Analista de Sistema</role>
+			</roles>
 		</developer>
 	</developers>
 	<dependencies>
@@ -47,6 +53,57 @@
 		<dependency>
 			<groupId>br.leg.rr.al.localidade</groupId>
 			<artifactId>alrr-localidade-utils</artifactId>
+			<scope>provided</scope>
+		</dependency>
+		<dependency>
+			<groupId>br.leg.rr.al.commons</groupId>
+			<artifactId>alrr-commons-ejb</artifactId>
+			<type>ejb</type>
+			<scope>provided</scope>
+		</dependency>
+		<dependency>
+			<groupId>br.leg.rr.al.localidade</groupId>
+			<artifactId>alrr-localidade-ejb</artifactId>
+			<type>ejb</type>
+			<scope>provided</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.jboss.spec.javax.ejb</groupId>
+			<artifactId>jboss-ejb-api_3.2_spec</artifactId>
+			<scope>provided</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.jboss.spec.javax.annotation</groupId>
+			<artifactId>jboss-annotations-api_1.3_spec</artifactId>
+			<scope>provided</scope>
+		</dependency>
+		<dependency>
+			<groupId>javax.validation</groupId>
+			<artifactId>validation-api</artifactId>
+			<scope>provided</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.jboss.spec.javax.transaction</groupId>
+			<artifactId>jboss-transaction-api_1.2_spec</artifactId>
+			<scope>provided</scope>
+		</dependency>
+		<dependency>
+			<groupId>br.leg.rr.al.localidade</groupId>
+			<artifactId>alrr-localidade-web-fragment</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>br.leg.rr.al.commons</groupId>
+			<artifactId>alrr-commons-web-fragment</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.jboss.spec.javax.faces</groupId>
+			<artifactId>jboss-jsf-api_2.3_spec</artifactId>
+			<scope>provided</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.jboss.spec.javax.servlet</groupId>
+			<artifactId>jboss-servlet-api_4.0_spec</artifactId>
+			<scope>provided</scope>
 		</dependency>
 	</dependencies>
 </project>

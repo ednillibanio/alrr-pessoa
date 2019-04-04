@@ -1,14 +1,18 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<web-app id="WebApp_ID" version="4.0"
- xmlns="http://xmlns.jcp.org/xml/ns/javaee"
- xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/ns/javaee/web-app_4_0.xsd">
- <display-name>alrr-pessoa-web</display-name>
- <absolute-ordering>
-  <name>alrr_core_web_template</name>
-  <others/>
- </absolute-ordering>
- <context-param>
-  <param-name>javax.faces.CONFIG_FILES</param-name>
-  <param-value>/WEB-INF/faces-config.xml</param-value>
- </context-param>
+<web-app id="web-pessoa-id" version="4.0"
+	xmlns="http://xmlns.jcp.org/xml/ns/javaee"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/ns/javaee/web-app_4_0.xsd">
+	<display-name>alrr-pessoa-web</display-name>
+
+	<absolute-ordering>
+		<name>alrr_core_web_template</name>
+		<name>alrr_localidade_web_fragment</name>
+		<name>alrr_commons_web_fragment</name>
+		<!-- <name>alrr_autenticacao_web_fragment</name> -->
+	</absolute-ordering>
+	<welcome-file-list>
+		<welcome-file>pagina-inicial.xhtml</welcome-file>
+		<welcome-file>index.xhtml</welcome-file>
+	</welcome-file-list>
 </web-app>

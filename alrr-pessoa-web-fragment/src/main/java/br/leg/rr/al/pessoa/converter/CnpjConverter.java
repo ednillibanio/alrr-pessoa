@@ -9,6 +9,7 @@ package br.leg.rr.al.pessoa.converter;
 
 import java.io.Serializable;
 
+import javax.enterprise.context.RequestScoped;
 import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
 import javax.faces.convert.Converter;
@@ -17,7 +18,8 @@ import javax.inject.Named;
 import br.leg.rr.al.pessoa.utils.CnpjUtils;
 
 @Named
-public class CnpjConverter implements Converter, Serializable {
+@RequestScoped
+public class CnpjConverter implements Converter<String>, Serializable {
 
 	/**
 	 * 
@@ -25,13 +27,13 @@ public class CnpjConverter implements Converter, Serializable {
 	private static final long serialVersionUID = 6768134191858673601L;
 
 	@Override
-	public Object getAsObject(FacesContext arg0, UIComponent component, String value) {
+	public String getAsObject(FacesContext arg0, UIComponent component, String value) {
 		return CnpjUtils.unformat(value);
 
 	}
 
 	@Override
-	public String getAsString(FacesContext arg0, UIComponent arg1, Object value) {
+	public String getAsString(FacesContext arg0, UIComponent arg1, String value) {
 		return CnpjUtils.format(value.toString());
 	}
 

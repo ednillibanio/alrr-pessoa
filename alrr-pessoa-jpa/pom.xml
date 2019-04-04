@@ -78,6 +78,7 @@
 		<dependency>
 			<groupId>br.leg.rr.al.localidade</groupId>
 			<artifactId>alrr-localidade-utils</artifactId>
+			<scope>provided</scope>
 		</dependency>
 		<dependency>
 			<groupId>org.hibernate.validator</groupId>

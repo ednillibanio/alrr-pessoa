@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html>
+<!--
+/****************************************************************************************
+* ALE-RR Licença																		*
+* Copyright (C) 2018, ALE-RR															*
+* Boa Vista, RR - Brasil																*
+* Todos os direitos reservados.															*
+* 																						*
+* Este programa é propriedade da Assembleia Legislativa do Estado de Roraima e 			*
+* não é permitida a distribuição, alteração ou cópia da mesma sem prévia autoriazação.	*
+*																						*
+*																						*
+*****************************************************************************************
+* Autor:  Ednil Libanio da Costa Junior													*
+* Versão: 1.0.0 																		*
+****************************************************************************************/
+-->
+<ui:fragment xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:f="http://xmlns.jcp.org/jsf/core"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:al="http://xmlns.jcp.org/jsf/composite/facelets/core"
+	xmlns:alcore="http://al.rr.leg.br/facelets/core"
+	xmlns:o="http://omnifaces.org/ui"
+	xmlns:c="http://xmlns.jcp.org/jsp/jstl/core"
+	xmlns:shiro="http://shiro.apache.org/tags"
+	xmlns:ph="http://xmlns.jcp.org/jsf/passthrough" lang="pt-br">
+
+
+	<!--   R E S U L T A D O   D A   P E S Q U I S A   -->
+	<al:datatable-resultado-pesquisa id="dt-pf"
+		controller="#{pessoaFisicaController}" filename="pfs"
+		dataTableRendered="#{pessoaFisicaController.entities.size()>0}"
+		tabindex="5">
+
+
+
+		<!--  C O L U N A:  N O M E  -->
+		<p:column id="nome" sortBy="#{var.nome}" width="30%" headerText="Nome">
+			<h:outputText value="#{var.nome}" />
+		</p:column>
+
+
+		<!--  C O L U N A:  C P F  -->
+		<p:column id="cpf" sortBy="#{var.cpf}" width="20%" headerText="CPF">
+			<h:outputText value="#{var.cpf}" />
+		</p:column>
+
+
+
+		<!--  C O L U N A:  E S T A D O   C I V I L  -->
+		<p:column sortBy="#{var.estadoCivil}" id="estado-civil" width="20%"
+			headerText="Estado Civil">
+			<h:outputText value="#{var.estadoCivil.label}" />
+		</p:column>
+
+
+		<!--  C O L U N A:  S E X O  -->
+		<p:column sortBy="#{var.sexo}" id="sexo" width="10%" headerText="Sexo">
+			<h:outputText value="#{var.sexo.label}" />
+		</p:column>
+
+
+		<!--  C O L U N A:   T E L E F O N E S  -->
+		<p:column id="tels" width="20%" headerText="Telefones">
+
+			<ui:repeat var="tel" value="#{var.telefones.toArray()}" varStatus="i">
+				<h:outputText value="#{tel}" converter="#{telefoneConverter}" />  #{i.last==true ? "" : " / "}				
+			</ui:repeat>
+
+		</p:column>
+
+
+		<!-- ContextMenu deve sempre vir depois do datable para funcionar a seleção pelo botão direito do mouse. -->
+		<f:facet name="contextmenu">
+			<p:contextMenu for="result" id="contextmenuId"
+				styleClass="contextmenu" widgetVar="contextmenuVar"
+				beforeShow="return true;">
+
+
+				<!-- *********   M E N U   D E T A L H E S   ********* -->
+				<!-- 				<alcore:menuitem-detalhes
+					action="#{municipioController.detalhes()}" />
+ -->
+				<!-- *********   M E N U   E D I T A R   ********* -->
+				<alcore:menuitem-editar action="#{pessoaFisicaController.editar()}" />
+
+
+			</p:contextMenu>
+		</f:facet>
+	</al:datatable-resultado-pesquisa>
+
+</ui:fragment>

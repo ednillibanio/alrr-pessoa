@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html>
+<!--
+/****************************************************************************************
+* ALE-RR Licença																		*
+* Copyright (C) 2018, ALE-RR															*
+* Boa Vista, RR - Brasil																*
+* Todos os direitos reservados.															*
+* 																						*
+* Este programa é propriedade da Assembleia Legislativa do Estado de Roraima e 			*
+* não é permitida a distribuição, alteração ou cópia da mesma sem prévia autoriazação.	*
+*																						*
+*																						*
+*****************************************************************************************
+* Autor:  Ednil Libanio da Costa Junior													*
+* Versão: 1.0.0 																		*
+****************************************************************************************/
+-->
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:f="http://xmlns.jcp.org/jsf/core"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:al="http://xmlns.jcp.org/jsf/composite/facelets/core"
+	xmlns:alcore="http://al.rr.leg.br/facelets/core"
+	xmlns:o="http://omnifaces.org/ui"
+	xmlns:c="http://xmlns.jcp.org/jsp/jstl/core"
+	xmlns:ph="http://xmlns.jcp.org/jsf/passthrough" lang="pt-br"
+	template="/pnl-filtro-pesquisa.xhtml">
+
+	<!--   P A I N E L   D E   F I L T R O S   -->
+	<ui:define name="filtros">
+
+		<!-- Esse componente deve vir sempre antes dos filtros para que a validação funcione. -->
+		<alcore:validateOneOrMore components="nome cpf sexo estado-civil" />
+
+		<p:panelGrid columns="4" layout="grid" styleClass="ui-panelgrid-blank"
+			columnClasses="ui-grid-col-2,ui-grid-col-4,ui-grid-col-2,ui-grid-col-4"
+			id="pnl-filtro">
+
+			<!--  C A M P O:  N O M E  -->
+			<p:outputLabel value="Nome" for="nome" />
+			<p:inputText id="nome" label="Nome"
+				value="#{pessoaFisicaController.nome}" />
+
+			<!--  F I L T R O:  C P F  -->
+			<p:outputLabel value="CPF" for="cpf" />
+			<p:inputText id="cpf" label="CPF"
+				value="#{pessoaFisicaController.cpf}" />
+
+			<!--  C A M P O:  S E X O  -->
+			<p:outputLabel value="Sexo" label="Sexo" for="sexo" />
+			<p:selectOneButton id="sexo" label="Sexo"
+				value="#{pessoaFisicaController.sexo}">
+				<f:selectItems value="#{cadastroEnumFactory.sexos}" var="sexo"
+					itemValue="#{sexo}" itemLabel="#{sexo.label}" />
+			</p:selectOneButton>
+
+
+			<!--  C A M P O:  E S T A D O  C I V  I L -->
+			<p:outputLabel value="Estado Civil" for="estado-civil" />
+			<p:selectCheckboxMenu id="estado-civil" multiple="true"
+				value="#{pessoaFisicaController.estadosCivisSelecionados}"
+				converter="#{omnifaces.GenericEnumConverter}">
+				<f:selectItems value="#{cadastroEnumFactory.estadosCivis}"
+					var="estcivil" itemValue="#{estcivil}"
+					itemLabel="#{estcivil.label}" />
+			</p:selectCheckboxMenu>
+		</p:panelGrid>
+
+
+	</ui:define>
+
+
+	<!--   B O T Ã O:   L I M P A R   -->
+	<ui:define name="btn-limpar">
+		<alcore:botao-limpar id="btnlimpar" tabindex="4"
+			action="#{pessoaFisicaController.limpar()}" process="@this"
+			update="@form" />
+	</ui:define>
+
+	<!--   B O T Ã O:   P E S Q U I S A R   -->
+	<ui:define name="btn-pesquisar">
+		<alcore:botao-pesquisar id="btnpesquisar" tabindex="3"
+			action="#{pessoaFisicaController.pesquisar()}"
+			update="frm-pg-pessoa-fisica @(.result) @(.msgs)" />
+	</ui:define>
+</ui:composition>

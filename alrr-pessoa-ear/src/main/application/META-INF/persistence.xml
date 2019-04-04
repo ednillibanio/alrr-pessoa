@@ -3,22 +3,52 @@
 	xmlns="http://xmlns.jcp.org/xml/ns/persistence"
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/persistence http://xmlns.jcp.org/xml/ns/persistence/persistence_2_1.xsd">
-	<persistence-unit name="alrr-pessoa-ear">
+	<persistence-unit name="alrr-pessoa-persistence-ear">
 
-		<provider>org.hibernate.ejb.HibernatePersistence</provider>
 		<!-- DATA SOURCE -->
-		<jta-data-source>java:jboss/datasources/pessoa-ds</jta-data-source>
+		<jta-data-source>java:jboss/datasources/alrr-sistemas-ds</jta-data-source>
 
 		<!-- <jar-file>lib/alrr-pessoa-jpa-1.0.0.jar</jar-file> -->
+
+		<!-- classes do modulo localidade -->
+		<class>br.leg.rr.al.localidade.jpa.Pais</class>
+		<class>br.leg.rr.al.localidade.jpa.Municipio</class>
+		<class>br.leg.rr.al.localidade.jpa.Bairro</class>
+		<class>br.leg.rr.al.localidade.jpa.Cep</class>
+		<class>br.leg.rr.al.localidade.jpa.UnidadeFederativa</class>
+
+
+		<!-- classes do modulo core -->
+		<class>br.leg.rr.al.core.jpa.BaseEntity</class>
+
+		<!-- classes do modulo commons -->
+		<!-- <class>br.leg.rr.al.commons.jpa.Telefone</class> -->
+
+
+		<!-- classes do modulo pessoa -->
+
+		<class>br.leg.rr.al.pessoa.jpa.Pessoa</class>
+		<class>br.leg.rr.al.pessoa.jpa.PessoaContato</class>
+		<class>br.leg.rr.al.pessoa.jpa.PessoaEndereco</class>
+		<class>br.leg.rr.al.pessoa.jpa.PessoaTelefone</class>
+		<class>br.leg.rr.al.pessoa.jpa.PessoaFisica</class>
+		<class>br.leg.rr.al.pessoa.jpa.PessoaJuridica</class>
+		<class>br.leg.rr.al.pessoa.jpa.Dependente</class>
+		<class>br.leg.rr.al.pessoa.jpa.DependenteTipo</class>
+		<class>br.leg.rr.al.pessoa.jpa.RegistroGeral</class>
+
 
 		<exclude-unlisted-classes>true</exclude-unlisted-classes>
 		<validation-mode>AUTO</validation-mode>
 
+		<!-- <jar-file>lib/alrr-localidade-jpa-1.0.0-SNAPSHOT.jar</jar-file> -->
+		<!-- <jar-file>lib/alrr-pessoa-jpa-1.0.0-SNAPSHOT.jar</jar-file> -->
 		<properties>
 			<property name="wildfly.jpa.default-unit" value="true" />
 			<property name="hibernate.default_schema"
-				value="localidade_schema" />
-			<!-- <property name="javax.persistence.schema-generation.database.action" 
+				value="pessoa_schema" />
+			<!-- <property
+				name="javax.persistence.schema-generation.database.action"
 				value="create" /> -->
 			<!-- <property name="javax.persistence.schema-generation.create-database-schemas" 
 				value="true" /> -->

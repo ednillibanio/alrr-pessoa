@@ -20,16 +20,18 @@ import org.omnifaces.util.Faces;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import br.leg.rr.al.commons.ejb.CepLocal;
-import br.leg.rr.al.commons.ejb.EnderecoLocal;
-import br.leg.rr.al.commons.jpa.Bairro;
 import br.leg.rr.al.commons.jpa.Telefone;
 import br.leg.rr.al.core.CoreUtilsValidationMessages;
 import br.leg.rr.al.core.utils.MessageUtils;
-import br.leg.rr.al.core.web.controller.CrudViewController;
+import br.leg.rr.al.core.utils.StringHelper;
 import br.leg.rr.al.core.web.controller.WebCamController;
+import br.leg.rr.al.core.web.controller.status.CrudViewControllerEntityStatus;
 import br.leg.rr.al.core.web.util.FacesMessageUtils;
 import br.leg.rr.al.core.web.util.ImagemHelper;
+import br.leg.rr.al.localidade.ejb.CepLocal;
+import br.leg.rr.al.localidade.ejb.EnderecoLocal;
+import br.leg.rr.al.localidade.jpa.Bairro;
+import br.leg.rr.al.localidade.jpa.Pais;
 import br.leg.rr.al.pessoa.CadastroValidationMessages;
 import br.leg.rr.al.pessoa.domain.EstadoCivilType;
 import br.leg.rr.al.pessoa.domain.PessoaType;
@@ -46,7 +48,7 @@ import br.leg.rr.al.pessoa.utils.CpfUtils;
  */
 @Named
 @ViewScoped
-public class PessoaFisicaController extends CrudViewController<PessoaFisica, Long> {
+public class PessoaFisicaController extends CrudViewControllerEntityStatus<PessoaFisica, Long> {
 
 	Logger logger = LoggerFactory.getLogger(PessoaFisicaController.class);
 
@@ -72,8 +74,7 @@ public class PessoaFisicaController extends CrudViewController<PessoaFisica, Lon
 	 * carrega a imagem. Os controller que fazem a tarefa são o WebCamController e
 	 * ImagemUploadController.
 	 */
-	// @Inject
-	// TODO removido pq mudei a classe imagemhelper.
+	@Inject
 	private ImagemHelper imagemHelper;
 
 	/**
@@ -166,7 +167,7 @@ public class PessoaFisicaController extends CrudViewController<PessoaFisica, Lon
 			}
 
 			pessoaController.atualizarTelefones(getEntity());
-			pessoaController.atualizarEndereco(getEntity());
+			// pessoaController.atualizarEndereco(getEntity());
 		} else {
 			FacesMessageUtils.addError(CoreUtilsValidationMessages.ENTIDADE_ESTA_NULL, PessoaFisica.class);
 			logger.error(
@@ -186,7 +187,9 @@ public class PessoaFisicaController extends CrudViewController<PessoaFisica, Lon
 				pf = getBean().buscar(pf.getId());
 
 				// fetch´s Pessoa Fisica
-				pf.getNaturalidade().getId();
+				if (pf.getNaturalidade() != null) {
+					pf.getNaturalidade().getId();
+				}
 
 				// transforma a imagem.
 				if (pf.getImagem() != null) {
@@ -203,12 +206,17 @@ public class PessoaFisicaController extends CrudViewController<PessoaFisica, Lon
 			}
 		} catch (NotSupportedException | SystemException e) {
 			logger.error(fatal, e.getMessage());
+			FacesMessageUtils.addFatal(e.getMessage());
+		} catch (Exception e) {
+			logger.error(fatal, e.getMessage());
+			FacesMessageUtils.addFatal(e.getMessage());
 		} finally {
 			try {
 				utx.commit();
 			} catch (IllegalStateException | SecurityException | HeuristicMixedException | HeuristicRollbackException
 					| RollbackException | SystemException e) {
 				logger.error(fatal, e.getMessage());
+				FacesMessageUtils.addFatal(e.getMessage());
 			}
 		}
 
@@ -218,8 +226,7 @@ public class PessoaFisicaController extends CrudViewController<PessoaFisica, Lon
 	 * Método que preenche o formulário com os dados da entidade Pessoa. São
 	 * preenchidos os dados de endereço, telefones e email.
 	 * 
-	 * @param p
-	 *            entidade que contém os dados a serem preenchidos.
+	 * @param p entidade que contém os dados a serem preenchidos.
 	 */
 	public void preencherDadosPessoa(Pessoa p) {
 
@@ -244,6 +251,14 @@ public class PessoaFisicaController extends CrudViewController<PessoaFisica, Lon
 		pessoaController.setFax(null);
 		pessoaController.setTelefoneFixo(null);
 		pessoaController.setTelefoneResidencial(null);
+	}
+
+	/**
+	 * Transformar primeira letra de cada palavra em maiúscula.
+	 */
+	public void capitalizeNome() {
+		String nome = StringHelper.capitalizeFully(getEntity().getNome());
+		getEntity().setNome(nome);
 	}
 
 	/*
@@ -277,8 +292,7 @@ public class PessoaFisicaController extends CrudViewController<PessoaFisica, Lon
 	 * Método utilizado para verificar se pessoa física já está cadastrada. Se
 	 * existir, lança uma exceção e recria a instação de PessoaFisica.
 	 * 
-	 * @param cpf
-	 *            número do cpf que será verificado na base de dados.
+	 * @param cpf número do cpf que será verificado na base de dados.
 	 */
 	public void verificaSeExiste() {
 		String cpf = getEntity().getCpf();
@@ -386,8 +400,7 @@ public class PessoaFisicaController extends CrudViewController<PessoaFisica, Lon
 	}
 
 	/**
-	 * @param cpf
-	 *            the cpf to set
+	 * @param cpf the cpf to set
 	 */
 	public void setCpf(String cpf) {
 		this.cpf = cpf;
@@ -401,8 +414,7 @@ public class PessoaFisicaController extends CrudViewController<PessoaFisica, Lon
 	}
 
 	/**
-	 * @param estadosCivisSelecionados
-	 *            the estadosCivisSelecionados to set
+	 * @param estadosCivisSelecionados the estadosCivisSelecionados to set
 	 */
 	public void setEstadosCivisSelecionados(EstadoCivilType[] estadosCivisSelecionados) {
 		this.estadosCivisSelecionados = estadosCivisSelecionados;

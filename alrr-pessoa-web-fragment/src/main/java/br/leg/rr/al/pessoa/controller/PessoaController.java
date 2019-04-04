@@ -1,67 +1,57 @@
 package br.leg.rr.al.pessoa.controller;
 
-import java.util.List;
 import java.util.Set;
 
 import javax.ejb.EJB;
-import javax.faces.component.UIComponent;
 import javax.faces.view.ViewScoped;
+import javax.inject.Inject;
 import javax.inject.Named;
 import javax.validation.constraints.Size;
 
 import org.apache.commons.lang3.StringUtils;
 import org.hibernate.validator.constraints.Email;
-import org.primefaces.event.SelectEvent;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
-import br.leg.rr.al.commons.domain.EnderecoType;
 import br.leg.rr.al.commons.domain.TelefoneType;
-import br.leg.rr.al.commons.ejb.BairroLocal;
-import br.leg.rr.al.commons.ejb.CepLocal;
-import br.leg.rr.al.commons.ejb.EnderecoLocal;
-import br.leg.rr.al.commons.ejb.MunicipioLocal;
-import br.leg.rr.al.commons.jpa.Bairro;
-import br.leg.rr.al.commons.jpa.Cep;
-import br.leg.rr.al.commons.jpa.Endereco;
-import br.leg.rr.al.commons.jpa.Municipio;
 import br.leg.rr.al.commons.jpa.Telefone;
-import br.leg.rr.al.commons.utils.CepUtils;
-import br.leg.rr.al.core.dao.BeanException;
-import br.leg.rr.al.core.web.controller.EntityStatusBaseController;
-import br.leg.rr.al.core.web.util.FacesMessageUtils;
-import br.leg.rr.al.core.web.util.FacesUtils;
+import br.leg.rr.al.commons.web.controllers.EnderecoController;
+import br.leg.rr.al.core.web.controller.status.CrudViewControllerEntityStatus;
+import br.leg.rr.al.localidade.domain.EnderecoType;
+import br.leg.rr.al.localidade.ejb.CepLocal;
+import br.leg.rr.al.localidade.ejb.EnderecoLocal;
 import br.leg.rr.al.pessoa.jpa.Pessoa;
+import br.leg.rr.al.pessoa.jpa.PessoaEndereco;
+import br.leg.rr.al.pessoa.jpa.PessoaTelefone;
 
 @Named
 @ViewScoped
-public class PessoaController extends EntityStatusBaseController<Pessoa, Long> {
+public class PessoaController extends CrudViewControllerEntityStatus<Pessoa, Long> {
 
 	/**
 	 * 
 	 */
 	private static final long serialVersionUID = 8778872964198415981L;
 
-	private Logger logger = LoggerFactory.getLogger(PessoaController.class);
-
 	/*-------------------------------------------
 	|             V A R I A V E I S             |
 	===========================================*/
 
-	private Endereco endereco = new Endereco();
+	private PessoaEndereco endereco = new PessoaEndereco();
 
 	private Boolean semCep = false;
 
-	private Telefone celular;
+	private PessoaTelefone celular;
 
-	private Telefone telefoneFixo;
+	private PessoaTelefone telefoneFixo;
 
-	private Telefone telefoneComercial;
+	private PessoaTelefone telefoneComercial;
 
-	private Telefone telefoneResidencial;
+	private PessoaTelefone telefoneResidencial;
 
-	private Telefone fax;
+	private PessoaTelefone fax;
 
+	@Inject
+	private EnderecoController enderecoController;
+	
 	@Email
 	@Size(max = 250)
 	private String email;
@@ -71,102 +61,23 @@ public class PessoaController extends EntityStatusBaseController<Pessoa, Long> {
 	==================================*/
 
 	@EJB
-	private MunicipioLocal localidadeBean;
-
-	@EJB
-	private BairroLocal bairroBean;
-
-	@EJB
 	private CepLocal cepBean;
 
 	@EJB
 	private EnderecoLocal enderecoBean;
 
 	/**
-	 * Método usado para buscar Localidades. A busca é realizada por parte do nome
-	 * informado.
-	 * 
-	 * @param nome
-	 *            atributo nome da entidade municipio
-	 * @return lista de localidades. <code>null </code> se nenhum encontrado.
-	 */
-	public List<Municipio> completeLocalidadePorNome(String nome) {
-		if (StringUtils.isNotBlank(nome) && (!nome.equals(" - "))) {
-			try {
-				return localidadeBean.buscarPorNome(nome);
-			} catch (BeanException e) {
-				FacesMessageUtils.addFatal(e.getMessage());
-				e.printStackTrace();
-			}
-
-		}
-
-		return null;
-	}
-
-	/**
-	 * Método usado para buscar bairros na entidade Bairro. A busca é realizada por
-	 * parte do nome do bairro informado.
-	 * 
-	 * @param nome
-	 *            nome do bairro.
-	 * @return lista de bairros. <code>null </code> se nenhum encontrado.
-	 */
-	public List<Bairro> completeBairroPorNome(String nome) {
-		if (StringUtils.isNotBlank(nome) && (!nome.equals(" - "))) {
-			try {
-				return getBairroBean().buscarPorNome(nome);
-			} catch (BeanException e) {
-				FacesMessageUtils.addFatal(e.getMessage());
-				e.printStackTrace();
-			}
-
-		}
-
-		return null;
-	}
-
-	/**
-	 * Busca o Endereço pelo Cep informado.
-	 * 
-	 */
-	public void buscarEnderecoPorCep() {
-
-		Cep cep = getCepBean().buscarCep(getEndereco().getCep());
-		Endereco end = enderecoBean.preencherEnderecoPorCep(cep);
-		if (end != null) {
-			setEndereco(end);
-		} else {
-			String arg0 = CepUtils.format(getEndereco().getCep());
-			UIComponent comp = FacesUtils.findComponent("cep");
-			FacesMessageUtils.addError(comp, "Nenhum endereço encontrado para o cep: ".concat(arg0));
-		}
-	}
-
-	/**
-	 * Preenche a Municipio do Endereço a partir do Bairro selecionado.
-	 * 
-	 */
-	public void preencherLocalidadePeloBairro(SelectEvent event) {
-		Bairro bairro = endereco.getBairro();
-		if (bairro != null && bairro.getLocalidade() != null) {
-			endereco.setLocalidade(bairro.getLocalidade());
-		}
-
-	}
-
-	/**
 	 * Responsável por preencher as variaveis de telefone a partir do banco de
 	 * dados.
 	 * 
-	 * @param tels
-	 *            lista com os telefones que foram carregados a partir do banco de
-	 *            dados e que vão ser usados pra preencher as variaveis de telefone.
+	 * @param tels lista com os telefones que foram carregados a partir do banco de
+	 *             dados e que vão ser usados pra preencher as variaveis de
+	 *             telefone.
 	 */
-	public void preencherTelefones(Set<Telefone> tels) {
+	public void preencherTelefones(Set<PessoaTelefone> tels) {
 		// preenche os telefones celular e fixo.
 		if (tels != null && tels.size() > 0) {
-			for (Telefone tel : tels) {
+			for (PessoaTelefone tel : tels) {
 
 				if (tel.getTipo() == TelefoneType.CELULAR) {
 					setCelular(tel);
@@ -190,15 +101,14 @@ public class PessoaController extends EntityStatusBaseController<Pessoa, Long> {
 	/**
 	 * Responsável por preencher a variável Endereco a partir do banco de dados.
 	 * 
-	 * @param enderecos
-	 *            lista com os endereços que foram carregados a partir do banco de
-	 *            dados e que vai ser usada para carregar a variável
-	 *            <code>enderecoComercial</code>.
-	 */
-	public void preencherEnderecoComercial(Set<Endereco> enderecos) {
+	 * @param enderecos lista com os endereços que foram carregados a partir do
+	 *                  banco de dados e que vai ser usada para carregar a variável
+	 *                  <code>enderecoComercial</code>.
+	 *//*
+	public void preencherEnderecoComercial(Set<PessoaEndereco> enderecos) {
 
 		if (enderecos != null && enderecos.size() > 0) {
-			for (Endereco end : enderecos) {
+			for (PessoaEndereco end : enderecos) {
 				if (end.getTipo() == EnderecoType.COMERCIAL) {
 					setEndereco(end);
 					break;
@@ -207,61 +117,56 @@ public class PessoaController extends EntityStatusBaseController<Pessoa, Long> {
 		}
 	}
 
-	/**
+	*//**
 	 * Responsável por preencher a variável Endereco a partir do banco de dados.
 	 * 
-	 * @param enderecos
-	 *            lista com os endereços que foram carregados a partir do banco de
-	 *            dados e que vai ser usada para carregar a variável
-	 *            <code>enderecoResidencial</code>.
-	 */
-	public void preencherEnderecoResidencial(Set<Endereco> enderecos) {
+	 * @param enderecos lista com os endereços que foram carregados a partir do
+	 *                  banco de dados e que vai ser usada para carregar a variável
+	 *                  <code>enderecoResidencial</code>.
+	 *//*
+	public void preencherEnderecoResidencial(Set<PessoaEndereco> enderecos) {
 
 		if (enderecos != null && enderecos.size() > 0) {
-			for (Endereco end : enderecos) {
+			for (PessoaEndereco end : enderecos) {
 				if (end.getTipo() == EnderecoType.RESIDENCIAL) {
 					setEndereco(end);
 					break;
 				}
 			}
 		}
-	}
+	}*/
 
 	/**
-	 * Limpa o campo </code>cep</code> do endereco caso o valor do
-	 * <code>semCep</code> seja true. Isso significa que não existe cep para o
-	 * endereço informado. Esse procedimento evita que um cep invalido seja salvo.
-	 */
-	public void limparCep() {
-		if (semCep == true) {
-			endereco.setCep(null);
-		} else {
-			endereco.setBairro(null);
-			endereco.setLocalidade(null);
-			endereco.setComplemento(null);
-			endereco.setLogradouro(null);
-			endereco.setNumero(null);
-		}
-	}
-
-	/**
-	 * Método responsável por adicoinar ou remover telefones associados a entidade
+	 * Adiciona os telefones informados pelo usuário na tela de cadastro a entidade
 	 * {@link Pessoa}.
 	 * 
-	 * @param entidade
+	 * @param pessoa entidade que será atribuida os telefones informados pelo
+	 *               usuário.
 	 */
-	public void atualizarTelefones(Pessoa entidade) {
+	protected void adicionarTelefones(Pessoa pessoa) {
+		atualizarTelefones(pessoa);
+	}
 
-		Set<Telefone> tels = entidade.getTelefones();
+	/**
+	 * Método responsável por adicionar ou remover telefones associados a entidade
+	 * {@link Pessoa}.
+	 * 
+	 * @param pessoa
+	 */
+	protected void atualizarTelefones(Pessoa pessoa) {
 
-		atualizarCelular(tels);
-		atualizarFixo(tels);
-		atualizarComercial(tels);
-		atualizarFax(tels);
+		if (pessoa.getTelefones() != null) {
+			Set<PessoaTelefone> tels = pessoa.getTelefones();
+
+			atualizarCelular(tels);
+			atualizarFixo(tels);
+			atualizarComercial(tels);
+			atualizarFax(tels);
+		}
 
 	}
 
-	private void atualizarFax(Set<Telefone> tels) {
+	private void atualizarFax(Set<PessoaTelefone> tels) {
 
 		if (fax != null) {
 
@@ -281,7 +186,7 @@ public class PessoaController extends EntityStatusBaseController<Pessoa, Long> {
 
 	}
 
-	private void atualizarComercial(Set<Telefone> tels) {
+	private void atualizarComercial(Set<PessoaTelefone> tels) {
 
 		if (telefoneComercial != null) {
 
@@ -300,7 +205,7 @@ public class PessoaController extends EntityStatusBaseController<Pessoa, Long> {
 
 	}
 
-	private void atualizarFixo(Set<Telefone> tels) {
+	private void atualizarFixo(Set<PessoaTelefone> tels) {
 
 		if (telefoneFixo != null) {
 
@@ -319,7 +224,7 @@ public class PessoaController extends EntityStatusBaseController<Pessoa, Long> {
 		}
 	}
 
-	private void atualizarCelular(Set<Telefone> tels) {
+	private void atualizarCelular(Set<PessoaTelefone> tels) {
 
 		if (celular != null) {
 
@@ -343,8 +248,8 @@ public class PessoaController extends EntityStatusBaseController<Pessoa, Long> {
 	 * @param origem
 	 * @param tels
 	 */
-	private void atualizarNumeroTelefone(Telefone origem, Set<Telefone> tels) {
-		for (Telefone destino : tels) {
+	private void atualizarNumeroTelefone(PessoaTelefone origem, Set<PessoaTelefone> tels) {
+		for (PessoaTelefone destino : tels) {
 			if (destino.getId() == origem.getId()) {
 				if (destino.getDdd() != origem.getDdd()) {
 					destino.setDdd(origem.getDdd());
@@ -362,8 +267,8 @@ public class PessoaController extends EntityStatusBaseController<Pessoa, Long> {
 	 * @param origem
 	 * @param tels
 	 */
-	private void removerTelefone(TelefoneType tipo, Set<Telefone> tels) {
-		for (Telefone destino : tels) {
+	private void removerTelefone(TelefoneType tipo, Set<PessoaTelefone> tels) {
+		for (PessoaTelefone destino : tels) {
 			if (destino.getTipo() == tipo) {
 				tels.remove(destino);
 			}
@@ -377,35 +282,42 @@ public class PessoaController extends EntityStatusBaseController<Pessoa, Long> {
 	 * 
 	 * @param pessoa
 	 */
-	public void atualizarEndereco(Pessoa pessoa) {
+	protected void atualizarEndereco(Pessoa pessoa) {
 
 		if (endereco != null) {
-			if (endereco.getId() == null) {
+			if (endereco.getId() == null && endereco.getLogradouro() != null) {
 				pessoa.getEnderecos().add(getEndereco());
-			} else {
-				// TODO implementar.
+			} else if (endereco.getId() != null && endereco.getLogradouro() == null) {
+				// remover
 			}
 		}
 	}
 
 	/**
-	 * Adiciona os telefones informados pelo usuário na tela de cadastro a entidade
-	 * {@link Pessoa}. * @param pessoa entidade que será atribuida os telefones
-	 * informados pelo usuário.
+	 * Limpa o campo </code>cep</code> do endereco caso o valor do
+	 * <code>semCep</code> seja true. Isso significa que não existe cep para o
+	 * endereço informado. Esse procedimento evita que um cep invalido seja salvo.
 	 */
-	public void adicionarTelefones(Pessoa pessoa) {
-		atualizarTelefones(pessoa);
+	public void limparCep() {
+		if (semCep == true) {
+			endereco.setCep(null);
+		} else {
+			endereco.setBairro(null);
+			endereco.setMunicipio(null);
+			endereco.setComplemento(null);
+			endereco.setLogradouro(null);
+			endereco.setNumero(null);
+		}
 	}
 
 	/**
 	 * Método que adiciona o endereço comercial informado pelo usuário à entidade
 	 * {@link Pessoa}.
 	 * 
-	 * @param pessoa
-	 *            entidade que será atribuida o endereço comercial informado pelo
-	 *            usuário.
+	 * @param pessoa entidade que será atribuida o endereço comercial informado pelo
+	 *               usuário.
 	 */
-	public void adicionarEnderecoComercial(Pessoa pessoa) {
+	protected void adicionarEnderecoComercial(Pessoa pessoa) {
 		if (endereco != null && pessoa.getEnderecos() != null) {
 			endereco.setTipo(EnderecoType.COMERCIAL);
 			pessoa.getEnderecos().add(endereco);
@@ -416,11 +328,10 @@ public class PessoaController extends EntityStatusBaseController<Pessoa, Long> {
 	 * Método que adiciona o endereço residencial informado pelo usuário à entidade
 	 * {@link Pessoa}.
 	 * 
-	 * @param pessoa
-	 *            entidade que será atribuida o endereço residencial informado pelo
-	 *            usuário.
+	 * @param pessoa entidade que será atribuida o endereço residencial informado
+	 *               pelo usuário.
 	 */
-	public void adicionarEnderecoResidencial(Pessoa pessoa) {
+	protected void adicionarEnderecoResidencial(Pessoa pessoa) {
 		if (endereco != null && pessoa.getEnderecos() != null) {
 			endereco.setTipo(EnderecoType.RESIDENCIAL);
 			pessoa.getEnderecos().add(endereco);
@@ -435,14 +346,6 @@ public class PessoaController extends EntityStatusBaseController<Pessoa, Long> {
 		this.cepBean = cepBean;
 	}
 
-	public BairroLocal getBairroBean() {
-		return bairroBean;
-	}
-
-	public void setBairroBean(BairroLocal bairroBean) {
-		this.bairroBean = bairroBean;
-	}
-
 	public Boolean getSemCep() {
 		return semCep;
 	}
@@ -455,7 +358,7 @@ public class PessoaController extends EntityStatusBaseController<Pessoa, Long> {
 		return celular;
 	}
 
-	public void setCelular(Telefone celular) {
+	public void setCelular(PessoaTelefone celular) {
 		this.celular = celular;
 	}
 
@@ -463,7 +366,7 @@ public class PessoaController extends EntityStatusBaseController<Pessoa, Long> {
 		return telefoneFixo;
 	}
 
-	public void setTelefoneFixo(Telefone telefoneFixo) {
+	public void setTelefoneFixo(PessoaTelefone telefoneFixo) {
 		this.telefoneFixo = telefoneFixo;
 	}
 
@@ -471,7 +374,7 @@ public class PessoaController extends EntityStatusBaseController<Pessoa, Long> {
 		return telefoneComercial;
 	}
 
-	public void setTelefoneComercial(Telefone telefoneComercial) {
+	public void setTelefoneComercial(PessoaTelefone telefoneComercial) {
 		this.telefoneComercial = telefoneComercial;
 	}
 
@@ -479,7 +382,7 @@ public class PessoaController extends EntityStatusBaseController<Pessoa, Long> {
 		return telefoneResidencial;
 	}
 
-	public void setTelefoneResidencial(Telefone telefoneResidencial) {
+	public void setTelefoneResidencial(PessoaTelefone telefoneResidencial) {
 		this.telefoneResidencial = telefoneResidencial;
 	}
 
@@ -487,15 +390,15 @@ public class PessoaController extends EntityStatusBaseController<Pessoa, Long> {
 		return fax;
 	}
 
-	public void setFax(Telefone fax) {
+	public void setFax(PessoaTelefone fax) {
 		this.fax = fax;
 	}
 
-	public Endereco getEndereco() {
+	public PessoaEndereco getEndereco() {
 		return endereco;
 	}
 
-	public void setEndereco(Endereco endereco) {
+	public void setEndereco(PessoaEndereco endereco) {
 		this.endereco = endereco;
 	}
 
@@ -505,6 +408,14 @@ public class PessoaController extends EntityStatusBaseController<Pessoa, Long> {
 
 	public void setEmail(String email) {
 		this.email = email;
+	}
+
+	public EnderecoController getEnderecoController() {
+		return enderecoController;
+	}
+
+	public void setEnderecoController(EnderecoController enderecoController) {
+		this.enderecoController = enderecoController;
 	}
 
 }

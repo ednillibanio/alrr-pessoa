@@ -2,6 +2,7 @@ package br.leg.rr.al.pessoa.converter;
 
 import java.io.Serializable;
 
+import javax.enterprise.context.RequestScoped;
 import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
 import javax.faces.convert.Converter;
@@ -14,7 +15,8 @@ import br.leg.rr.al.pessoa.utils.CpfUtils;
  * @date 03-04-2018
  */
 @Named
-public class CpfConverter implements Converter, Serializable {
+@RequestScoped
+public class CpfConverter implements Converter<String>, Serializable {
 
 	/**
 	 * 
@@ -22,13 +24,13 @@ public class CpfConverter implements Converter, Serializable {
 	private static final long serialVersionUID = 1403935515422759561L;
 
 	@Override
-	public Object getAsObject(FacesContext arg0, UIComponent component, String value) {
+	public String getAsObject(FacesContext arg0, UIComponent component, String value) {
 		return CpfUtils.unformat(value);
 	}
 
 	@Override
-	public String getAsString(FacesContext arg0, UIComponent arg1, Object value) {
-		return CpfUtils.format((String) value);
+	public String getAsString(FacesContext arg0, UIComponent arg1, String value) {
+		return CpfUtils.format(value);
 	}
 
 }

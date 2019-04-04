@@ -70,12 +70,14 @@
 		</dependency>
 		<dependency>
 			<groupId>br.leg.rr.al.commons</groupId>
-			<artifactId>alrr-commons-web-fragment</artifactId>
-		</dependency>
-		<dependency>
-			<groupId>br.leg.rr.al.commons</groupId>
 			<artifactId>alrr-commons-ejb</artifactId>
 			<type>ejb</type>
+			<exclusions>
+				<exclusion>
+					<groupId>br.leg.rr.al.localidade</groupId>
+					<artifactId>alrr-localidade-utils</artifactId>
+				</exclusion>
+			</exclusions>
 			<scope>provided</scope>
 		</dependency>
 		<dependency>
@@ -87,6 +89,12 @@
 			<groupId>br.leg.rr.al.commons</groupId>
 			<artifactId>alrr-commons-utils</artifactId>
 			<scope>provided</scope>
+			<exclusions>
+				<exclusion>
+					<groupId>br.leg.rr.al.localidade</groupId>
+					<artifactId>alrr-localidade-utils</artifactId>
+				</exclusion>
+			</exclusions>
 		</dependency>
 		<dependency>
 			<groupId>javax.validation</groupId>
@@ -122,6 +130,10 @@
 			<groupId>org.jboss.spec.javax.faces</groupId>
 			<artifactId>jboss-jsf-api_2.3_spec</artifactId>
 			<scope>provided</scope>
+		</dependency>
+		<dependency>
+			<groupId>br.leg.rr.al.pessoa</groupId>
+			<artifactId>alrr-pessoa-web-fragment</artifactId>
 		</dependency>
 	</dependencies>
 </project>
